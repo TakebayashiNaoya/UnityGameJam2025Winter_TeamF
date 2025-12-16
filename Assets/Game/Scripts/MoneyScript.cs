@@ -58,19 +58,21 @@ public class MoneyScript : MonoBehaviour
             MoneyLevel = _maximumMoneyLevel;
         }
 
-        //レベルアップに必要なお金よりも現在のお金が多いかつレベルアップのフラグが立っていたら
-        if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+        if (MoneyLevel < 7)
         {
-            _currentMoney -= _levelUpCost[MoneyLevel];
-            MoneyLevel++;
-            LevelUP = false;
-        }
+            //レベルアップに必要なお金よりも現在のお金が多いかつレベルアップのフラグが立っていたら
+            if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+            {
+                _currentMoney -= _levelUpCost[MoneyLevel];
+                MoneyLevel++;
+                LevelUP = false;
+            }
 
-        else
-        {
-            LevelUP = false;
+            else
+            {
+                LevelUP = false;
+            }
         }
-
         //現在のお金の文字表示
         CurrentMoneyText.text = _currentMoney.ToString();
 
