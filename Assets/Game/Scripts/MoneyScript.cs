@@ -58,19 +58,21 @@ public class MoneyScript : MonoBehaviour
             MoneyLevel = _maximumMoneyLevel;
         }
 
-        //���x���A�b�v�ɕK�v�Ȃ��������݂̂�������������x���A�b�v�̃t���O�������Ă�����
-        if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+        if (MoneyLevel < 7)
         {
-            _currentMoney -= _levelUpCost[MoneyLevel];
-            MoneyLevel++;
-            LevelUP = false;
-        }
+            //���x���A�b�v�ɕK�v�Ȃ��������݂̂�������������x���A�b�v�̃t���O�������Ă�����
+            if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+            {
+                _currentMoney -= _levelUpCost[MoneyLevel];
+                MoneyLevel++;
+                LevelUP = false;
+            }
 
-        else
-        {
-            LevelUP = false;
+            else
+            {
+                LevelUP = false;
+            }
         }
-
         //���݂̂���̕����\��
         CurrentMoneyText.text = _currentMoney.ToString();
 
