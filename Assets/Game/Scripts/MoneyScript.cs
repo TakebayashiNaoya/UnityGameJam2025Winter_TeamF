@@ -63,8 +63,13 @@ public class MoneyScript : MonoBehaviour
             levelUP = false;
         }
 
-        //‚±‚±‚©‚ç‰º‚Å‚¨‹à‚ð‘‚â‚µ‚Ä‚é
-        timer += Time.deltaTime;
+        else
+        {
+            levelUP = false;
+        }
+
+            //‚±‚±‚©‚ç‰º‚Å‚¨‹à‚ð‘‚â‚µ‚Ä‚é
+            timer += Time.deltaTime;
 
         if(timer >= 1.0f)
         {
