@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum CharacterState
+public enum CharacterState
 {
     None,
     Idle,
@@ -17,19 +17,18 @@ public class CharacterBaseScript : MonoBehaviour
 {
     [SerializeField] float health;
     [SerializeField] float moveSpeed;
-    [SerializeField] float attackPower;
-    [SerializeField] float attackRange;
-    [SerializeField] float attackInterval;
+
+    CharacterState currentState = CharacterState.None;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentState = CharacterState.Walk;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if ()
     }
 }

@@ -8,7 +8,7 @@ public class AttackBaseScript : MonoBehaviour
     [SerializeField] float range;
     [SerializeField] float interval;
 
-
+    private float standingTime = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +21,10 @@ public class AttackBaseScript : MonoBehaviour
     {
         
     }
+
+
+
+
 
     void AttackStateMachine()
     {
