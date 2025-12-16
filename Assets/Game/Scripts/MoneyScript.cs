@@ -58,8 +58,8 @@ public class MoneyScript : MonoBehaviour
         //レベルアップに必要なお金よりも現在のお金が多いかつレベルアップのフラグが立っていたら
         if (levelUpCost[moneyLevel] < currentMoney && levelUP == true)
         {
-            moneyLevel++;
             currentMoney -= levelUpCost[moneyLevel];
+            moneyLevel++;
             levelUP = false;
         }
 
