@@ -18,13 +18,19 @@ public class MoneyScript : MonoBehaviour
     int maximumMoneyLevel = 7;
 
     //増えるお金の変化量
-    [SerializeField] private int[] addAmountOfChange;
+    [SerializeField] public int[] addAmountOfChange;
 
     //お金の上限
-    [SerializeField] private int[] maximumMoney;
+    [SerializeField] public int[] maximumMoney;
+
+    //レベルアップ可能に必要なお金
+    [SerializeField] public int[] levelUpCost;
 
     //時間
     float timer = 0;
+
+    //レベルアップ可能かどうかのフラグ
+    public bool levelUP = false;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +55,15 @@ public class MoneyScript : MonoBehaviour
             moneyLevel = maximumMoneyLevel;
         }
 
+        //レベルアップに必要なお金よりも現在のお金が多いかつレベルアップのフラグが立っていたら
+        if (levelUpCost[moneyLevel] < currentMoney && levelUP == true)
+        {
+            moneyLevel++;
+            currentMoney -= levelUpCost[moneyLevel];
+            levelUP = false;
+        }
+
+        //ここから下でお金を増やしてる
         timer += Time.deltaTime;
 
         if(timer >= 1.0f)
@@ -60,13 +75,4 @@ public class MoneyScript : MonoBehaviour
         Debug.Log("現在のお金:" + currentMoney);
     }
 
-    void AddMoney()
-    {
-       
-    }
-
-    void MaximumMoneyManager()
-    {
-        
-    }
 }
