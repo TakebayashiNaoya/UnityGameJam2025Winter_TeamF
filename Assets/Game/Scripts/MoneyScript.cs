@@ -1,36 +1,36 @@
+
 ///
-///�����Ǘ�����N���X
+///お金を管理するクラス
 ///
 using UnityEngine;
 using TMPro;
 
 public class MoneyScript : MonoBehaviour
 {
-    //���݂̂���
+    //現在のお金
     private int _currentMoney = 0;
 
-    //����̃��x��
+    //お金レベル
     public int MoneyLevel = 0;
 
-    //����̃��x�����
+    //お金レベルの上限
     private int _maximumMoneyLevel = 7;
 
-    //�����邨��̕ω���
-    [Header("�����邨��̗�"),SerializeField] private int[] _addAmountOfChange;
+    //増えるお金の量
+    [Header("増えるお金の量"),SerializeField] private int[] _addAmountOfChange;
 
-    //����̏��
-    [Header("����̏��"),SerializeField] private int[] _maximumMoney;
+    //お金の上限
+    [Header("お金の上限"),SerializeField] private int[] _maximumMoney;
 
-    //���x���A�b�v�\�ɕK�v�Ȃ���
-    [Header("���x���A�b�v�\�ɕK�v�Ȃ���"),SerializeField] private int[] _levelUpCost;
+    //お金がレベルアップ可能に必要なお金
+    [Header("お金がレベルアップ可能に必要なお金"),SerializeField] private int[] _levelUpCost;
 
-    //����
+    //時間
     private float _timer = 0;
 
-    //���x���A�b�v�\���ǂ����̃t���O
+    //レベルアップ可能かどうかのフラグ
     public bool LevelUP = false;
 
-    //����̃��x���̃e�L�X�g
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
@@ -44,23 +44,25 @@ public class MoneyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //���������݂̂�����傫���Ȃ�ꍇ
+
+        //今持ってるお金が上限より多かったら
         if (_maximumMoney[MoneyLevel] <= _currentMoney)
         {
-            //����𒴂��Ȃ��悤�ɂ���
+            //上限で止める
             _currentMoney = _maximumMoney[MoneyLevel];
         }
 
-        //���������݂̂�����x�����傫���Ȃ�ꍇ
+        //今のお金のレベルが上限なら
         if (_maximumMoneyLevel <= MoneyLevel)
         {
-            //����𒴂��Ȃ��悤�ɂ���
+            //上限で止める
             MoneyLevel = _maximumMoneyLevel;
         }
 
-        if (MoneyLevel < 7)
+        //���x���A�b�v�ɕK�v�Ȃ��������݂̂�������������x���A�b�v�̃t���O�������Ă�����
+        if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
         {
-            //���x���A�b�v�ɕK�v�Ȃ��������݂̂�������������x���A�b�v�̃t���O�������Ă�����
+            //お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
             if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
             {
                 _currentMoney -= _levelUpCost[MoneyLevel];
@@ -73,13 +75,14 @@ public class MoneyScript : MonoBehaviour
                 LevelUP = false;
             }
         }
-        //���݂̂���̕����\��
+
+        //現在のお金の文字表示
         CurrentMoneyText.text = _currentMoney.ToString();
 
-        //����̃��x���̕����\��
+        //お金レベルの文字表示
         MoneyLevelText.text = "Level " + MoneyLevel;
 
-        //�������牺�ł���𑝂₵�Ă�
+        //ここから下でお金を増やしてる
         _timer += Time.deltaTime;
 
         if(_timer >= 1.0f)
@@ -88,7 +91,7 @@ public class MoneyScript : MonoBehaviour
             _timer = 0.0f;
         }
 
-        Debug.Log("���݂̂���:" + _currentMoney);
+        Debug.Log("現在のお金:" + _currentMoney);
     }
 
 }
