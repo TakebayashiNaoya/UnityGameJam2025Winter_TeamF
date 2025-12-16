@@ -1,5 +1,5 @@
-//
-//‚¨‹à‚Ìƒ{ƒ^ƒ“‚ðŠÇ—‚·‚éƒNƒ‰ƒX
+ï»¿//
+//ãŠé‡‘ã®ãƒœã‚¿ãƒ³ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 //
 using System.Collections;
 using System.Collections.Generic;
@@ -8,13 +8,13 @@ using UnityEngine.UI;
 
 public class MoneyButtonScript : MonoBehaviour
 {
-    //ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚Ìmoney‚ð“o˜^‚·‚é
+    //ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®moneyã‚’ç™»éŒ²ã™ã‚‹
     [SerializeField] GameObject money;
 
-    //money‚ÉƒAƒ^ƒbƒ`‚³‚ê‚½ƒXƒNƒŠƒvƒg‚ð•ÛŽ‚·‚é
+    //moneyã«ã‚¢ã‚¿ãƒƒãƒã•ã‚ŒãŸã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ä¿æŒã™ã‚‹
     MoneyScript moneyScript;
 
-    //ƒ{ƒ^ƒ“
+    //ãƒœã‚¿ãƒ³
     Button moneyButton;
 
     // Start is called before the first frame update
@@ -32,7 +32,7 @@ public class MoneyButtonScript : MonoBehaviour
 
         moneyButton.onClick.AddListener(() =>
         {
-            moneyScript.LevelUP = true;
+            moneyScript.CanLevelUP = true;
         });
     }
 }

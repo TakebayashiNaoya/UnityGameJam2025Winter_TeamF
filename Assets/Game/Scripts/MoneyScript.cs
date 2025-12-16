@@ -1,78 +1,73 @@
-
-///
-///お金を管理するクラス
+﻿///
+/// お金管理
 ///
 using UnityEngine;
 using TMPro;
 
 public class MoneyScript : MonoBehaviour
 {
-    //現在のお金
+    // 現在のお金
     private int _currentMoney = 0;
 
-    //お金レベル
-    public int MoneyLevel = 0;
+    // お金レベル
+    public int MoneyLevel { get; private set; }
 
-    //お金レベルの上限
-    private int _maximumMoneyLevel = 7;
+    // お金レベルの上限
+    private int _maxMoneyLevel = 7;
 
-    //増えるお金の量
-    [Header("増えるお金の量"),SerializeField] private int[] _addAmountOfChange;
+    [Header("増えるお金の量"), SerializeField]
+    private int[] _addAmountOfChanges;
 
-    //お金の上限
-    [Header("お金の上限"),SerializeField] private int[] _maximumMoney;
+    [Header("お金の上限"), SerializeField]
+    private int[] _maxMoneys;
 
-    //お金がレベルアップ可能に必要なお金
-    [Header("お金がレベルアップ可能に必要なお金"),SerializeField] private int[] _levelUpCost;
+    [Header("お金がレベルアップ可能に必要なお金"), SerializeField] 
+    private int[] _levelUpCosts;
 
-    //時間
-    private float _timer = 0;
+    // 時間
+    private float _timer = 0f;
 
-    //レベルアップ可能かどうかのフラグ
-    public bool LevelUP = false;
+    // レベルアップ可能かどうかのフラグ
+    public bool CanLevelUP = false;
 
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    /// <summary>
+    /// 毎フレーム更新
+    /// </summary>
     void Update()
     {
 
-        //今持ってるお金が上限より多かったら
-        if (_maximumMoney[MoneyLevel] <= _currentMoney)
+        // 今持ってるお金が上限より多かったら
+        if (_maxMoneys[MoneyLevel] <= _currentMoney)
         {
-            //上限で止める
-            _currentMoney = _maximumMoney[MoneyLevel];
+            // 上限で止める
+            _currentMoney = _maxMoneys[MoneyLevel];
         }
 
-        //今のお金のレベルが上限なら
-        if (_maximumMoneyLevel <= MoneyLevel)
+        // 今のお金のレベルが上限なら
+        if (_maxMoneyLevel <= MoneyLevel)
         {
-            //上限で止める
-            MoneyLevel = _maximumMoneyLevel;
+            // 上限で止める
+            MoneyLevel = _maxMoneyLevel;
         }
 
-        //���x���A�b�v�ɕK�v�Ȃ��������݂̂�������������x���A�b�v�̃t���O�������Ă�����
-        if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+        // お金レベルが上限よりも下だった場合
+        if (MoneyLevel < _maxMoneyLevel)
         {
             //お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
-            if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+            if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
             {
-                _currentMoney -= _levelUpCost[MoneyLevel];
+                _currentMoney -= _levelUpCosts[MoneyLevel];
                 MoneyLevel++;
-                LevelUP = false;
+                CanLevelUP = false;
             }
 
             else
             {
-                LevelUP = false;
+                CanLevelUP = false;
             }
         }
 
@@ -85,9 +80,9 @@ public class MoneyScript : MonoBehaviour
         //ここから下でお金を増やしてる
         _timer += Time.deltaTime;
 
-        if(_timer >= 1.0f)
+        if (_timer >= 1.0f)
         {
-            _currentMoney += _addAmountOfChange[MoneyLevel];
+            _currentMoney += _addAmountOfChanges[MoneyLevel];
             _timer = 0.0f;
         }
 
