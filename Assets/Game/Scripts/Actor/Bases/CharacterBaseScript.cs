@@ -23,11 +23,11 @@ public enum CharacterType
 public class CharacterBaseScript : ActorScript
 {
     [Header("出撃に必要なお金"), SerializeField] private int m_needMoney;
-    [Header("体力"),             SerializeField] private float m_health; 
-    [Header("移動速度"),         SerializeField] private float m_moveSpeed; 
+    [Header("体力"),             SerializeField] private float m_health;
+    [Header("移動速度"),         SerializeField] private float m_moveSpeed;
     [Header("攻撃力"),           SerializeField] private float m_attackPower;
-    [Header("射程"),             SerializeField] private float m_range;
-    [Header("身長"),             SerializeField] private float m_height;
+    [Header("射程"),             SerializeField] private float m_attackRange;
+    [Header("当たり判定"),       SerializeField] private float m_bodyRange;
     [Header("再出撃までの時間"), SerializeField] private float m_spawnInterval;  
     [Header("再攻撃までの時間"), SerializeField] private float m_attackInterval; 
     [Header("攻撃にかかる時間"), SerializeField] private float m_attackingTime;
@@ -60,9 +60,9 @@ public class CharacterBaseScript : ActorScript
 
 
         m_attackCollider.name = "AttackCollider";
-        m_attackCollider.radius = m_range;
+        m_attackCollider.radius = m_attackRange;
         m_bodyCollider.name = "BodyCollider";
-        m_bodyCollider.radius = m_height;
+        m_bodyCollider.radius = m_bodyRange;
     }
 
 
