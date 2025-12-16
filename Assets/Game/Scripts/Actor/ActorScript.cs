@@ -7,13 +7,11 @@ public abstract class ActorScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitializeObject();
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateObject();
     }
 
 
