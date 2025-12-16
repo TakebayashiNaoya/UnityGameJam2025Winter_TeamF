@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,24 +12,36 @@ public enum CharacterState
 }
 
 
+public enum CharacterType
+{
+    None,
+    Player,
+    Enemy
+}
+
 
 public class CharacterBaseScript : ActorScript
 {
-    [Header("oŒ‚‚É•K—v‚È‚¨‹à"), SerializeField] int m_needMoney;
-    [Header("‘Ì—Í"),             SerializeField] float m_health; 
-    [Header("ˆÚ“®‘¬“x"),         SerializeField] float m_moveSpeed; 
-    [Header("UŒ‚—Í"),           SerializeField] float m_attackPower;
-    [Header("Ë’ö"),             SerializeField] float m_range; 
-    [Header("ÄoŒ‚‚Ü‚Å‚ÌŠÔ"), SerializeField] float m_spawnInterval;  
-    [Header("ÄUŒ‚‚Ü‚Å‚ÌŠÔ"), SerializeField] float m_attackInterval; 
-    [Header("UŒ‚‚É‚©‚©‚éŠÔ"), SerializeField] float m_attackingTime;  
+    [Header("å‡ºæ’ƒã«å¿…è¦ãªãŠé‡‘"), SerializeField] private int m_needMoney;
+    [Header("ä½“åŠ›"),             SerializeField] private float m_health;
+    [Header("ç§»å‹•é€Ÿåº¦"),         SerializeField] private float m_moveSpeed;
+    [Header("æ”»æ’ƒåŠ›"),           SerializeField] private float m_attackPower;
+    [Header("å°„ç¨‹"),             SerializeField] private float m_attackRange;
+    [Header("å½“ãŸã‚Šåˆ¤å®š"),       SerializeField] private float m_bodyRange;
+    [Header("å†å‡ºæ’ƒã¾ã§ã®æ™‚é–“"), SerializeField] private float m_spawnInterval;  
+    [Header("å†æ”»æ’ƒã¾ã§ã®æ™‚é–“"), SerializeField] private float m_attackInterval; 
+    [Header("æ”»æ’ƒã«ã‹ã‹ã‚‹æ™‚é–“"), SerializeField] private float m_attackingTime;
+    [Header("é–“åˆã„"),           SerializeField] private SphereCollider m_attackCollider;
+    [Header("è‡ªèº«ã®å½“ãŸã‚Šåˆ¤å®š"), SerializeField] private SphereCollider m_bodyCollider;
+    [Header("ã‚­ãƒ£ãƒ©ã‚¿ã‚¤ãƒ—"),     SerializeField] private CharacterType m_characterType;
 
-    private float m_standingTimer = 0.0f;       //‘Ò‹@ŠÔŒv‘ª—pƒ^ƒCƒ}[
-    private float m_attackingTimer = 0.0f;      //UŒ‚ŠÔŒv‘ª—pƒ^ƒCƒ}[
-    private bool m_canAttack = true;            //UŒ‚‰Â”\‚©‚Ç‚¤‚©
-    private bool m_isDie = false;               //€–S‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
 
-    CharacterState m_currentState = CharacterState.None;
+    private float m_standingTimer = 0.0f;       //å¾…æ©Ÿæ™‚é–“è¨ˆæ¸¬ç”¨ã‚¿ã‚¤ãƒãƒ¼
+    private float m_attackingTimer = 0.0f;      //æ”»æ’ƒæ™‚é–“è¨ˆæ¸¬ç”¨ã‚¿ã‚¤ãƒãƒ¼
+    private bool m_canAttack = true;            //æ”»æ’ƒå¯èƒ½ã‹ã©ã†ã‹
+    private bool m_isDie = false;               //æ­»äº¡ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹
+
+    private CharacterState m_currentState = CharacterState.None;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +57,12 @@ public class CharacterBaseScript : ActorScript
     protected override void InitializeObject()
     {
         m_currentState = CharacterState.Walk;
+
+
+        m_attackCollider.name = "AttackCollider";
+        m_attackCollider.radius = m_attackRange;
+        m_bodyCollider.name = "BodyCollider";
+        m_bodyCollider.radius = m_bodyRange;
     }
 
 
@@ -54,7 +72,7 @@ public class CharacterBaseScript : ActorScript
     }
 
 
-    void CharacterStateMachine()
+    private void CharacterStateMachine()
     {
         switch (m_currentState)
         {
@@ -79,15 +97,15 @@ public class CharacterBaseScript : ActorScript
         }
     }
 
-    //ƒAƒCƒhƒ‹ƒXƒe[ƒg‚ÌXVˆ—
-    void IdleStateUpdate()
+    //ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç†
+    private void IdleStateUpdate()
     {
         m_standingTimer += Time.deltaTime;
     }
 
 
-    //ƒAƒCƒhƒ‹ƒXƒe[ƒg‚Ìó‘Ô‘JˆÚˆ—
-    void IdleChangeState()
+    //ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¹ãƒ†ãƒ¼ãƒˆã®çŠ¶æ…‹é·ç§»å‡¦ç†
+    private void IdleChangeState()
     {
         if (m_standingTimer >= m_attackInterval)
         {
@@ -98,29 +116,29 @@ public class CharacterBaseScript : ActorScript
 
 
 
-    //•à‚«ƒXƒe[ƒg‚ÌXVˆ—
-    void WalkStateUpdate()
+    //æ­©ãã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç†
+    private void WalkStateUpdate()
     {
         transform.Translate(Vector3.right * m_moveSpeed * Time.deltaTime);
     }
 
 
-    //•à‚«ƒXƒe[ƒg‚Ìó‘Ô‘JˆÚˆ—
-    void WalkChangeState()
+    //æ­©ãã‚¹ãƒ†ãƒ¼ãƒˆã®çŠ¶æ…‹é·ç§»å‡¦ç†
+    private void WalkChangeState()
     {
 
     }
 
 
-    //UŒ‚ƒXƒe[ƒg‚ÌXVˆ—
-    void AttackStateUpdate()
+    //æ”»æ’ƒã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç†
+    private void AttackStateUpdate()
     {
         m_attackingTimer += Time.deltaTime;
     }
 
 
-    //UŒ‚ƒXƒe[ƒg‚Ìó‘Ô‘JˆÚˆ—
-    void AttackChangeState()
+    //æ”»æ’ƒã‚¹ãƒ†ãƒ¼ãƒˆã®çŠ¶æ…‹é·ç§»å‡¦ç†
+    private void AttackChangeState()
     {
         if (m_attackingTimer >= m_attackingTime)
         {
@@ -130,15 +148,15 @@ public class CharacterBaseScript : ActorScript
     }
 
 
-    //€–SƒXƒe[ƒg‚ÌXVˆ—
-    void DieStateUpdate()
+    //æ­»äº¡ã‚¹ãƒ†ãƒ¼ãƒˆã®æ›´æ–°å‡¦ç†
+    private void DieStateUpdate()
     {
 
     }
 
 
-    //€–SƒXƒe[ƒg‚Ìó‘Ô‘JˆÚˆ—
-    void DieChangeState()
+    //æ­»äº¡ã‚¹ãƒ†ãƒ¼ãƒˆã®çŠ¶æ…‹é·ç§»å‡¦ç†
+    private void DieChangeState()
     {
 
     }
