@@ -32,7 +32,7 @@ public class MoneyButtonScript : MonoBehaviour
 
         moneyButton.onClick.AddListener(() =>
         {
-            moneyScript.levelUP = true;
+            moneyScript.LevelUP = true;
         });
     }
 }
