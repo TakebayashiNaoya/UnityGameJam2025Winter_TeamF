@@ -1,4 +1,5 @@
-﻿///
+
+///
 ///お金を管理するクラス
 ///
 using UnityEngine;
@@ -30,7 +31,6 @@ public class MoneyScript : MonoBehaviour
     //レベルアップ可能かどうかのフラグ
     public bool LevelUP = false;
 
-    //お金レベル
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
@@ -44,6 +44,7 @@ public class MoneyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //今持ってるお金が上限より多かったら
         if (_maximumMoney[MoneyLevel] <= _currentMoney)
         {
@@ -74,6 +75,7 @@ public class MoneyScript : MonoBehaviour
                 LevelUP = false;
             }
         }
+
         //現在のお金の文字表示
         CurrentMoneyText.text = _currentMoney.ToString();
 
