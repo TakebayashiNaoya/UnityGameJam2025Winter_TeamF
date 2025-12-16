@@ -1,36 +1,36 @@
+
 ///
-///‚¨‹à‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+///ãŠé‡‘ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
 ///
 using UnityEngine;
 using TMPro;
 
 public class MoneyScript : MonoBehaviour
 {
-    //Œ»İ‚Ì‚¨‹à
+    //ç¾åœ¨ã®ãŠé‡‘
     private int _currentMoney = 0;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹
+    //ãŠé‡‘ãƒ¬ãƒ™ãƒ«
     public int MoneyLevel = 0;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹ãŒÀ
+    //ãŠé‡‘ãƒ¬ãƒ™ãƒ«ã®ä¸Šé™
     private int _maximumMoneyLevel = 7;
 
-    //‘‚¦‚é‚¨‹à‚Ì•Ï‰»—Ê
-    [Header("‘‚¦‚é‚¨‹à‚Ì—Ê"),SerializeField] private int[] _addAmountOfChange;
+    //å¢—ãˆã‚‹ãŠé‡‘ã®é‡
+    [Header("å¢—ãˆã‚‹ãŠé‡‘ã®é‡"),SerializeField] private int[] _addAmountOfChange;
 
-    //‚¨‹à‚ÌãŒÀ
-    [Header("‚¨‹à‚ÌãŒÀ"),SerializeField] private int[] _maximumMoney;
+    //ãŠé‡‘ã®ä¸Šé™
+    [Header("ãŠé‡‘ã®ä¸Šé™"),SerializeField] private int[] _maximumMoney;
 
-    //ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚É•K—v‚È‚¨‹à
-    [Header("ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚É•K—v‚È‚¨‹à"),SerializeField] private int[] _levelUpCost;
+    //ãŠé‡‘ãŒãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—å¯èƒ½ã«å¿…è¦ãªãŠé‡‘
+    [Header("ãŠé‡‘ãŒãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—å¯èƒ½ã«å¿…è¦ãªãŠé‡‘"),SerializeField] private int[] _levelUpCost;
 
-    //ŠÔ
+    //æ™‚é–“
     private float _timer = 0;
 
-    //ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    //ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—å¯èƒ½ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
     public bool LevelUP = false;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹‚ÌƒeƒLƒXƒg
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
@@ -44,40 +44,45 @@ public class MoneyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ãŒÀ‚æ‚è‚àŒ»İ‚Ì‚¨‹à‚ª‘å‚«‚­‚È‚éê‡
+
+        //ä»ŠæŒã£ã¦ã‚‹ãŠé‡‘ãŒä¸Šé™ã‚ˆã‚Šå¤šã‹ã£ãŸã‚‰
         if (_maximumMoney[MoneyLevel] <= _currentMoney)
         {
-            //ãŒÀ‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            //ä¸Šé™ã§æ­¢ã‚ã‚‹
             _currentMoney = _maximumMoney[MoneyLevel];
         }
 
-        //ãŒÀ‚æ‚è‚àŒ»İ‚Ì‚¨‹àƒŒƒxƒ‹‚ª‘å‚«‚­‚È‚éê‡
+        //ä»Šã®ãŠé‡‘ã®ãƒ¬ãƒ™ãƒ«ãŒä¸Šé™ãªã‚‰
         if (_maximumMoneyLevel <= MoneyLevel)
         {
-            //ãŒÀ‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            //ä¸Šé™ã§æ­¢ã‚ã‚‹
             MoneyLevel = _maximumMoneyLevel;
         }
 
-        //ƒŒƒxƒ‹ƒAƒbƒv‚É•K—v‚È‚¨‹à‚æ‚è‚àŒ»İ‚Ì‚¨‹à‚ª‘½‚¢‚©‚ÂƒŒƒxƒ‹ƒAƒbƒv‚Ìƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚½‚ç
+        //ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½É•Kï¿½vï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âƒï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
         if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
         {
-            _currentMoney -= _levelUpCost[MoneyLevel];
-            MoneyLevel++;
-            LevelUP = false;
+            //ãŠé‡‘ã®ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã«å¿…è¦ãªãŠé‡‘ä»¥ä¸Šã«ãŠé‡‘ãŒã‚ã£ãŸæ™‚ã‹ã¤ã€ãƒ¬ãƒ™ãƒ«ã‚¢ãƒƒãƒ—ã®ãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸæ™‚
+            if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+            {
+                _currentMoney -= _levelUpCost[MoneyLevel];
+                MoneyLevel++;
+                LevelUP = false;
+            }
+
+            else
+            {
+                LevelUP = false;
+            }
         }
 
-        else
-        {
-            LevelUP = false;
-        }
-
-        //Œ»İ‚Ì‚¨‹à‚Ì•¶š•\¦
+        //ç¾åœ¨ã®ãŠé‡‘ã®æ–‡å­—è¡¨ç¤º
         CurrentMoneyText.text = _currentMoney.ToString();
 
-        //‚¨‹à‚ÌƒŒƒxƒ‹‚Ì•¶š•\¦
+        //ãŠé‡‘ãƒ¬ãƒ™ãƒ«ã®æ–‡å­—è¡¨ç¤º
         MoneyLevelText.text = "Level " + MoneyLevel;
 
-        //‚±‚±‚©‚ç‰º‚Å‚¨‹à‚ğ‘‚â‚µ‚Ä‚é
+        //ã“ã“ã‹ã‚‰ä¸‹ã§ãŠé‡‘ã‚’å¢—ã‚„ã—ã¦ã‚‹
         _timer += Time.deltaTime;
 
         if(_timer >= 1.0f)
@@ -86,7 +91,7 @@ public class MoneyScript : MonoBehaviour
             _timer = 0.0f;
         }
 
-        Debug.Log("Œ»İ‚Ì‚¨‹à:" + _currentMoney);
+        Debug.Log("ç¾åœ¨ã®ãŠé‡‘:" + _currentMoney);
     }
 
 }
