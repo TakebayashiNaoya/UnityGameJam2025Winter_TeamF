@@ -1,36 +1,36 @@
 ///
-///‚¨‹à‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+///ï¿½ï¿½ï¿½ï¿½ï¿½Ç—ï¿½ï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½X
 ///
 using UnityEngine;
 using TMPro;
 
 public class MoneyScript : MonoBehaviour
 {
-    //Œ»İ‚Ì‚¨‹à
+    //ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½
     private int _currentMoney = 0;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹
+    //ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½xï¿½ï¿½
     public int MoneyLevel = 0;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹ãŒÀ
+    //ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½
     private int _maximumMoneyLevel = 7;
 
-    //‘‚¦‚é‚¨‹à‚Ì•Ï‰»—Ê
-    [Header("‘‚¦‚é‚¨‹à‚Ì—Ê"),SerializeField] private int[] _addAmountOfChange;
+    //ï¿½ï¿½ï¿½ï¿½ï¿½é‚¨ï¿½ï¿½Ì•Ï‰ï¿½ï¿½ï¿½
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½é‚¨ï¿½ï¿½Ì—ï¿½"),SerializeField] private int[] _addAmountOfChange;
 
-    //‚¨‹à‚ÌãŒÀ
-    [Header("‚¨‹à‚ÌãŒÀ"),SerializeField] private int[] _maximumMoney;
+    //ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½
+    [Header("ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½"),SerializeField] private int[] _maximumMoney;
 
-    //ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚É•K—v‚È‚¨‹à
-    [Header("ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚É•K—v‚È‚¨‹à"),SerializeField] private int[] _levelUpCost;
+    //ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½Â”\ï¿½É•Kï¿½vï¿½È‚ï¿½ï¿½ï¿½
+    [Header("ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½Â”\ï¿½É•Kï¿½vï¿½È‚ï¿½ï¿½ï¿½"),SerializeField] private int[] _levelUpCost;
 
-    //ŠÔ
+    //ï¿½ï¿½ï¿½ï¿½
     private float _timer = 0;
 
-    //ƒŒƒxƒ‹ƒAƒbƒv‰Â”\‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    //ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½Â”\ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
     public bool LevelUP = false;
 
-    //‚¨‹à‚ÌƒŒƒxƒ‹‚ÌƒeƒLƒXƒg
+    //ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½xï¿½ï¿½ï¿½Ìƒeï¿½Lï¿½Xï¿½g
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
@@ -44,40 +44,42 @@ public class MoneyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ãŒÀ‚æ‚è‚àŒ»İ‚Ì‚¨‹à‚ª‘å‚«‚­‚È‚éê‡
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½È‚ï¿½ê‡
         if (_maximumMoney[MoneyLevel] <= _currentMoney)
         {
-            //ãŒÀ‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            //ï¿½ï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
             _currentMoney = _maximumMoney[MoneyLevel];
         }
 
-        //ãŒÀ‚æ‚è‚àŒ»İ‚Ì‚¨‹àƒŒƒxƒ‹‚ª‘å‚«‚­‚È‚éê‡
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½å‚«ï¿½ï¿½ï¿½È‚ï¿½ê‡
         if (_maximumMoneyLevel <= MoneyLevel)
         {
-            //ãŒÀ‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            //ï¿½ï¿½ï¿½ï¿½ğ’´‚ï¿½ï¿½È‚ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
             MoneyLevel = _maximumMoneyLevel;
         }
 
-        //ƒŒƒxƒ‹ƒAƒbƒv‚É•K—v‚È‚¨‹à‚æ‚è‚àŒ»İ‚Ì‚¨‹à‚ª‘½‚¢‚©‚ÂƒŒƒxƒ‹ƒAƒbƒv‚Ìƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚½‚ç
-        if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+        if (MoneyLevel < 7)
         {
-            _currentMoney -= _levelUpCost[MoneyLevel];
-            MoneyLevel++;
-            LevelUP = false;
-        }
+            //ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½É•Kï¿½vï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âƒï¿½ï¿½xï¿½ï¿½ï¿½Aï¿½bï¿½vï¿½Ìƒtï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½
+            if (_levelUpCost[MoneyLevel] < _currentMoney && LevelUP == true)
+            {
+                _currentMoney -= _levelUpCost[MoneyLevel];
+                MoneyLevel++;
+                LevelUP = false;
+            }
 
-        else
-        {
-            LevelUP = false;
+            else
+            {
+                LevelUP = false;
+            }
         }
-
-        //Œ»İ‚Ì‚¨‹à‚Ì•¶š•\¦
+        //ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
         CurrentMoneyText.text = _currentMoney.ToString();
 
-        //‚¨‹à‚ÌƒŒƒxƒ‹‚Ì•¶š•\¦
+        //ï¿½ï¿½ï¿½ï¿½Ìƒï¿½ï¿½xï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
         MoneyLevelText.text = "Level " + MoneyLevel;
 
-        //‚±‚±‚©‚ç‰º‚Å‚¨‹à‚ğ‘‚â‚µ‚Ä‚é
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ç‰ºï¿½Å‚ï¿½ï¿½ï¿½ğ‘‚â‚µï¿½Ä‚ï¿½
         _timer += Time.deltaTime;
 
         if(_timer >= 1.0f)
@@ -86,7 +88,7 @@ public class MoneyScript : MonoBehaviour
             _timer = 0.0f;
         }
 
-        Debug.Log("Œ»İ‚Ì‚¨‹à:" + _currentMoney);
+        Debug.Log("ï¿½ï¿½ï¿½İ‚Ì‚ï¿½ï¿½ï¿½:" + _currentMoney);
     }
 
 }
