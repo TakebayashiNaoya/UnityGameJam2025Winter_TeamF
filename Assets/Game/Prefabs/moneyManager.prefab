@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6058595435889254303}
   - component: {fileID: 6057352975687902101}
   m_Layer: 0
-  m_Name: money
+  m_Name: MoneyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5434c58cac084a5408d408c029aef6ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoneyLevel: 0
-  _addAmountOfChange: b9000000c1000000cb000000d4000000de000000e7000000f1000000fa000000
-  _maximumMoney: 701700004c1d00002823000004290000e02e0000bc340000983a000074400000
-  _levelUpCost: 300200006004000090060000c0080000f00a0000200d0000500f0000
-  LevelUP: 0
+  _addAmountOfChanges: b9000000c1000000cb000000d4000000de000000e7000000f1000000fa000000
+  _maxMoneys: 701700004c1d00002823000004290000e02e0000bc340000983a000074400000
+  _levelUpCosts: 300200006004000090060000c0080000f00a0000200d0000500f0000
+  CanLevelUP: 0
   MoneyLevelText: {fileID: 0}
   CurrentMoneyText: {fileID: 0}
+  LevelUpCostText: {fileID: 0}
