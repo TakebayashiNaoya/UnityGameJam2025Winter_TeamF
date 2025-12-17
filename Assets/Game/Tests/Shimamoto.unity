@@ -320,7 +320,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3035686580087168099, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
       propertyPath: m_Name
-      value: moneyManager
+      value: MoneyManager
       objectReference: {fileID: 0}
     - target: {fileID: 6057352975687902101, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
       propertyPath: MoneyLevelText
