@@ -7,7 +7,7 @@ using TMPro;
 public class MoneyScript : MonoBehaviour
 {
     // 現在のお金
-    private int _currentMoney = 0;
+    public int _currentMoney { get; private set; }
 
     // お金レベル
     public int MoneyLevel { get; private set; }
@@ -116,6 +116,12 @@ public class MoneyScript : MonoBehaviour
             MoneyLevel++;
             CanLevelUP = false;
         }
+    }
+
+
+    public void Spawn(int cost)
+    {
+        _currentMoney -= cost;
     }
 
 }

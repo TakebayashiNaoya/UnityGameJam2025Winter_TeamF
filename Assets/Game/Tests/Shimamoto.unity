@@ -395,6 +395,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6022818702073408599, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_text
+      value: Spawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022818702073408599, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_fontSize
+      value: 54
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022818702073408599, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 54
+      objectReference: {fileID: 0}
     - target: {fileID: 6843585574758538184, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -475,6 +487,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 232.2137
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 147.9097
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -483
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -265
+      objectReference: {fileID: 0}
     - target: {fileID: 8308674455317697237, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: MoneyManager
       value: 
@@ -482,7 +510,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4326489983178002733, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6649623549120909014}
   m_SourcePrefab: {fileID: 100100000, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
 --- !u!114 &6649623549120909012 stripped
 MonoBehaviour:
@@ -495,6 +526,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6649623549120909013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4326489983178002733, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+  m_PrefabInstance: {fileID: 6649623549120909011}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6649623549120909014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6649623549120909013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a757a76d8eb963b42b1ab62f1bd02511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoneyManager: {fileID: 1916396312}
+  SpawnCost: 75
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
