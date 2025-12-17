@@ -50,8 +50,17 @@ public class CharacterBaseScript : ActorScript
     private CharacterState m_currentState = CharacterState.None;
     private Rigidbody m_rb;
 
-    // Start is called before the first frame update
-    void Start()
+
+    //キャラ生産に必要なお金を取得
+    public int GetNeedMoney()
+    {
+       return m_needMoney;
+    }
+
+
+
+// Start is called before the first frame update
+void Start()
     {
     }
 
