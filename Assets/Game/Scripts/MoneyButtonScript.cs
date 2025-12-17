@@ -8,19 +8,28 @@ using UnityEngine.UI;
 
 public class MoneyButtonScript : MonoBehaviour
 {
-    //ゲームオブジェクトのmoneyを登録する
+    // ゲームオブジェクトのmoneyを登録する
     [SerializeField] GameObject money;
 
-    //moneyにアタッチされたスクリプトを保持する
+    // moneyにアタッチされたスクリプトを保持する
     MoneyScript moneyScript;
 
-    //ボタン
+    // ボタン
     Button moneyButton;
+
+    // 現在のスプライト
+    public Sprite CurrentSprite;
+
+    // レベルアップ可能になった時のスプライト
+    public Sprite CanLevelUpSprite;
+
+    private Image _image;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Imageコンポーネントを取得
+        _image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -32,7 +41,24 @@ public class MoneyButtonScript : MonoBehaviour
 
         moneyButton.onClick.AddListener(() =>
         {
-            moneyScript.CanLevelUP = true;
+            moneyScript.LevelUp();
+
+            // レベルアップしたら画像を元に戻す
+            _image.sprite = CurrentSprite;
         });
+
+        // もしレベルアップ可能だったら
+        if(moneyScript.CanLevelUP)
+        {
+            // レベルアップ可能用の画像にする
+            _image.sprite = CanLevelUpSprite;
+        }
+
+        // それ以外は
+        else
+        {
+            // そのまま
+            _image.sprite = CurrentSprite;
+        }
     }
 }
