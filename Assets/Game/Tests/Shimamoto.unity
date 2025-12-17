@@ -493,7 +493,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1462410617152011621, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_text
-      value: LevelUpCost
+      value: 'LevelUpCost : 9999'
       objectReference: {fileID: 0}
     - target: {fileID: 1462410617152011621, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_fontSize
