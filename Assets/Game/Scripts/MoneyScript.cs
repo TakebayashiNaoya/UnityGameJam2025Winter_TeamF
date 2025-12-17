@@ -72,7 +72,7 @@ public class MoneyScript : MonoBehaviour
         }
 
         // 現在のお金の文字表示
-        CurrentMoneyText.text = _currentMoney.ToString();
+        CurrentMoneyText.text = _currentMoney.ToString() + " / " + _maxMoneys[MoneyLevel].ToString();
 
         // お金レベルの文字表示
         if (MoneyLevel < _maxMoneyLevel)
