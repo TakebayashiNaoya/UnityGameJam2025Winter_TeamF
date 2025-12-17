@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MoneyButtonScript : MonoBehaviour
 {
     // ゲームオブジェクトのmoneyを登録する
-    [SerializeField] GameObject money;
+    [SerializeField] GameObject MoneyManager;
 
     // moneyにアタッチされたスクリプトを保持する
     MoneyScript moneyScript;
@@ -35,7 +35,7 @@ public class MoneyButtonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moneyScript = money.GetComponent<MoneyScript>();
+        moneyScript = MoneyManager.GetComponent<MoneyScript>();
 
         moneyButton = GetComponent<Button>();
 
