@@ -487,6 +487,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 579299310312585737, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 317.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 579299310312585737, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 61.198
+      objectReference: {fileID: 0}
+    - target: {fileID: 579299310312585737, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 48.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 579299310312585737, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 110.7227
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581149325442707818, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_margin.x
+      value: -0.8677368
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581149325442707818, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_margin.z
+      value: -0.8678131
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581149325442707818, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3169224362755064549, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_Name
       value: Canvas
