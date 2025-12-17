@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class MoneyButtonScript : MonoBehaviour
 {
     // ゲームオブジェクトのmoneyを登録する
-    [SerializeField] GameObject money;
+    [SerializeField] GameObject MoneyManager;
 
     // moneyにアタッチされたスクリプトを保持する
     MoneyScript moneyScript;
