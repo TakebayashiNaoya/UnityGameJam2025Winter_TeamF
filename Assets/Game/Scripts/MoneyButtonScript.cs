@@ -25,6 +25,8 @@ public class MoneyButtonScript : MonoBehaviour
 
     private Image _image;
 
+    [Header("レベルアップSE"), SerializeField] private AudioClip LevelUpSE;
+
     // Start is called before the first frame update
     void Start()
     {

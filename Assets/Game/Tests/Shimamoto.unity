@@ -123,6 +123,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &369694541
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5229427363646365950, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
 --- !u!114 &1142821083 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1130491059610301427, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
@@ -249,6 +306,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoneyManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6057352975687902101, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
+      propertyPath: CanSpawn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057352975687902101, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
+      propertyPath: LevelUpSE
+      value: 
+      objectReference: {fileID: 8300000, guid: 3e58ed822e83b9a4cb19c03b2eb2568b, type: 3}
     - target: {fileID: 6057352975687902101, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
       propertyPath: MoneyLevelText
       value: 
@@ -553,3 +618,4 @@ SceneRoots:
   - {fileID: 6649623549120909011}
   - {fileID: 1947402365}
   - {fileID: 1916396311}
+  - {fileID: 369694541}

@@ -37,10 +37,17 @@ public class SpawnButtonScript : MonoBehaviour
         // コストよりも現在のお金があるのなら
         if(moneyScript._currentMoney > SpawnCost)
         {
+            moneyScript.CanSpawn = true;
+
             spawnButton.onClick.AddListener(() =>
             {
                 moneyScript.Spawn(SpawnCost);
             });
+        }
+
+        else
+        {
+            moneyScript.CanSpawn = false;
         }
     }
 }

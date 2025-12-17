@@ -30,11 +30,16 @@ public class MoneyScript : MonoBehaviour
     // レベルアップ可能かどうかのフラグ
     public bool CanLevelUP = false;
 
+    // キャラがスポーン可能かどうかのフラグ
+    public bool CanSpawn = false;
+
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
 
     public TextMeshProUGUI LevelUpCostText;
+
+    [Header("レベルアップSE"), SerializeField] private AudioClip LevelUpSE;
 
     /// <summary>
     /// 毎フレーム更新
@@ -115,13 +120,20 @@ public class MoneyScript : MonoBehaviour
             _currentMoney -= _levelUpCosts[MoneyLevel];
             MoneyLevel++;
             CanLevelUP = false;
+            SoundManager.instance.PlaySe(LevelUpSE);
         }
+        
     }
 
 
     public void Spawn(int cost)
     {
-        _currentMoney -= cost;
+        if (CanSpawn)
+        {
+            _currentMoney -= cost;
+            CanSpawn = false;
+        }
+        
     }
 
 }
