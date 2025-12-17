@@ -34,6 +34,8 @@ public class MoneyScript : MonoBehaviour
 
     public TextMeshProUGUI CurrentMoneyText;
 
+    public TextMeshProUGUI LevelUpCostText;
+
     /// <summary>
     /// 毎フレーム更新
     /// </summary>
@@ -73,6 +75,9 @@ public class MoneyScript : MonoBehaviour
 
         // 現在のお金の文字表示
         CurrentMoneyText.text = _currentMoney.ToString() + " / " + _maxMoneys[MoneyLevel].ToString();
+
+        // レベルアップに必要なお金の文字表示
+        LevelUpCostText.text = "LevelUpCost : " + _levelUpCosts[MoneyLevel].ToString();
 
         // お金レベルの文字表示
         if (MoneyLevel < _maxMoneyLevel)
