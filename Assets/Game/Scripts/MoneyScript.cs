@@ -77,18 +77,21 @@ public class MoneyScript : MonoBehaviour
         // 現在のお金の文字表示
         CurrentMoneyText.text = _currentMoney.ToString() + " / " + _maxMoneys[MoneyLevel].ToString();
 
-        // レベルアップに必要なお金の文字表示
-        LevelUpCostText.text = "LevelUpCost : " + _levelUpCosts[MoneyLevel].ToString();
-
-        // お金レベルの文字表示
         if (MoneyLevel < _maxMoneyLevel)
         {
+            // レベルアップに必要なお金の文字表示
+            LevelUpCostText.text = "LevelUpCost : " + _levelUpCosts[MoneyLevel].ToString();
+
+            // お金レベルの文字表示
             MoneyLevelText.text = "Level " + MoneyLevel;
         }
 
         // もしお金のレベルがMaxなら
         else
         {
+            //コストの文字を無しと表示する
+            LevelUpCostText.text = "LevelUpCost :";
+
             // レベルをMaxと表示する
             MoneyLevelText.text = "Level Max";
         }
@@ -109,7 +112,9 @@ public class MoneyScript : MonoBehaviour
     {
         if (CanLevelUP)
         {
+            _currentMoney -= _levelUpCosts[MoneyLevel];
             MoneyLevel++;
+            CanLevelUP = false;
         }
     }
 

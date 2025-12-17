@@ -17,10 +17,19 @@ public class MoneyButtonScript : MonoBehaviour
     //ボタン
     Button moneyButton;
 
+    //現在のスプライト
+    public Sprite CurrentSprite;
+
+    //レベルアップ可能になった時のスプライト
+    public Sprite CanLevelUpSprite;
+
+    private Image _image;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Imageコンポーネントを取得
+        _image = GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -32,7 +41,19 @@ public class MoneyButtonScript : MonoBehaviour
 
         moneyButton.onClick.AddListener(() =>
         {
-            moneyScript.CanLevelUP = true;
+            moneyScript.LevelUp();
+            _image.sprite = CurrentSprite;
         });
+
+        //もしレベルアップ可能だったら
+        if(moneyScript.CanLevelUP)
+        {
+            _image.sprite = CanLevelUpSprite;
+        }
+
+        else
+        {
+            _image.sprite = CurrentSprite;
+        }
     }
 }
