@@ -35,7 +35,7 @@ public class MoneyButtonScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moneyScript = money.GetComponent<MoneyScript>();
+        moneyScript = MoneyManager.GetComponent<MoneyScript>();
 
         moneyButton = GetComponent<Button>();
 
