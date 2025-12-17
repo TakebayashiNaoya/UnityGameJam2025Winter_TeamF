@@ -21,7 +21,7 @@ public class MoneyScript : MonoBehaviour
     [Header("お金の上限"), SerializeField]
     private int[] _maxMoneys;
 
-    [Header("お金がレベルアップ可能に必要なお金"), SerializeField] 
+    [Header("レベルアップに必要な金額"), SerializeField]
     private int[] _levelUpCosts;
 
     // 時間
@@ -33,6 +33,8 @@ public class MoneyScript : MonoBehaviour
     public TextMeshProUGUI MoneyLevelText;
 
     public TextMeshProUGUI CurrentMoneyText;
+
+    public TextMeshProUGUI LevelUpCostText;
 
     /// <summary>
     /// 毎フレーム更新
@@ -57,12 +59,13 @@ public class MoneyScript : MonoBehaviour
         // お金レベルが上限よりも下だった場合
         if (MoneyLevel < _maxMoneyLevel)
         {
-            //お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
-            if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
+            // お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
+            // if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
+
+            //レベルアップに必要な金額が貯まっている時
+            if (_currentMoney > _levelUpCosts[MoneyLevel])
             {
-                _currentMoney -= _levelUpCosts[MoneyLevel];
-                MoneyLevel++;
-                CanLevelUP = false;
+                CanLevelUP = true;
             }
 
             else
@@ -71,13 +74,26 @@ public class MoneyScript : MonoBehaviour
             }
         }
 
-        //現在のお金の文字表示
-        CurrentMoneyText.text = _currentMoney.ToString();
+        // 現在のお金の文字表示
+        CurrentMoneyText.text = _currentMoney.ToString() + " / " + _maxMoneys[MoneyLevel].ToString();
 
-        //お金レベルの文字表示
-        MoneyLevelText.text = "Level " + MoneyLevel;
+        // レベルアップに必要なお金の文字表示
+        LevelUpCostText.text = "LevelUpCost : " + _levelUpCosts[MoneyLevel].ToString();
 
-        //ここから下でお金を増やしてる
+        // お金レベルの文字表示
+        if (MoneyLevel < _maxMoneyLevel)
+        {
+            MoneyLevelText.text = "Level " + MoneyLevel;
+        }
+
+        // もしお金のレベルがMaxなら
+        else
+        {
+            // レベルをMaxと表示する
+            MoneyLevelText.text = "Level Max";
+        }
+
+        // ここから下でお金を増やしてる
         _timer += Time.deltaTime;
 
         if (_timer >= 1.0f)
@@ -87,6 +103,14 @@ public class MoneyScript : MonoBehaviour
         }
 
         Debug.Log("現在のお金:" + _currentMoney);
+    }
+
+    public void LevelUp()
+    {
+        if (CanLevelUP)
+        {
+            MoneyLevel++;
+        }
     }
 
 }
