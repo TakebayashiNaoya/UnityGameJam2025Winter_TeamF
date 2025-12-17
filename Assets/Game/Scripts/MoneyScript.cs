@@ -21,7 +21,7 @@ public class MoneyScript : MonoBehaviour
     [Header("お金の上限"), SerializeField]
     private int[] _maxMoneys;
 
-    [Header("お金がレベルアップ可能に必要なお金"), SerializeField]
+    [Header("レベルアップに必要な金額"), SerializeField]
     private int[] _levelUpCosts;
 
     // 時間
@@ -60,11 +60,12 @@ public class MoneyScript : MonoBehaviour
         if (MoneyLevel < _maxMoneyLevel)
         {
             // お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
-            if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
+            // if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
+
+            //レベルアップに必要な金額が貯まっている時
+            if (_currentMoney > _levelUpCosts[MoneyLevel])
             {
-                _currentMoney -= _levelUpCosts[MoneyLevel];
-                MoneyLevel++;
-                CanLevelUP = false;
+                CanLevelUP = true;
             }
 
             else
@@ -102,6 +103,14 @@ public class MoneyScript : MonoBehaviour
         }
 
         Debug.Log("現在のお金:" + _currentMoney);
+    }
+
+    public void LevelUp()
+    {
+        if (CanLevelUP)
+        {
+            MoneyLevel++;
+        }
     }
 
 }
