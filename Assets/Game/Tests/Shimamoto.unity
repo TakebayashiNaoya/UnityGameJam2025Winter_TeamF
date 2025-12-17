@@ -495,41 +495,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1462410617152011621, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_text
-      value: 'LevelUpCost : 9999'
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462410617152011621, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_fontSize
-      value: 54
-      objectReference: {fileID: 0}
-    - target: {fileID: 1462410617152011621, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 54
-      objectReference: {fileID: 0}
     - target: {fileID: 3169224362755064549, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_Name
       value: Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4179676509854049194, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1258b80e06558cd4e890d402451644e6, type: 3}
-    - target: {fileID: 5445291192178670514, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 818.4424
-      objectReference: {fileID: 0}
-    - target: {fileID: 5445291192178670514, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 56.9096
-      objectReference: {fileID: 0}
-    - target: {fileID: 5445291192178670514, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -550.7788
-      objectReference: {fileID: 0}
-    - target: {fileID: 5445291192178670514, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -511.5452
       objectReference: {fileID: 0}
     - target: {fileID: 6843585574758538184, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_Pivot.x
@@ -615,18 +583,6 @@ PrefabInstance:
       propertyPath: money
       value: 
       objectReference: {fileID: 145161502}
-    - target: {fileID: 8308674455317697237, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: CurrentSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1258b80e06558cd4e890d402451644e6, type: 3}
-    - target: {fileID: 8308674455317697237, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: CanLevelUpSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d094c749d4765f14ca1fda883dff5731, type: 3}
-    - target: {fileID: 8924230923670221488, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
-      propertyPath: m_Name
-      value: LevelUpCostText (TMP)
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
