@@ -1,6 +1,7 @@
 ﻿//
 //キャラクターベースクラス
 //
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum CharacterState
@@ -44,7 +45,10 @@ public class CharacterBaseScript : ActorScript
     private bool m_isAttackInterval = false;    //攻撃がクールダウン中かどうか
     private bool m_isDie = false;               //死亡しているかどうか
 
+    private Vector3 m_moveDirction = Vector3.zero;    //移動方向ベクトル
+
     private CharacterState m_currentState = CharacterState.None;
+    private Rigidbody m_rb;
 
     // Start is called before the first frame update
     void Start()
@@ -56,15 +60,40 @@ public class CharacterBaseScript : ActorScript
     {
     }
 
+    /// <summary>
+    /// インスペクター上で値が変更されたときに呼ばれる
+    /// </summary>
+    private void OnValidate()
+    {
+        m_attackCollider.radius = m_attackRange;
+        m_bodyCollider.radius = m_bodyRange;
+    }
+
 
     protected override void InitializeObject()
     {
-        m_attackCollider.name = "AttackCollider";
         m_attackCollider.radius = m_attackRange;
-        m_bodyCollider.name = "BodyCollider";
         m_bodyCollider.radius = m_bodyRange;
 
-        
+        m_rb = GetComponent<Rigidbody>();
+        //重力無効化
+        m_rb.useGravity = false;
+        //慣性挙動無効化
+        m_rb.isKinematic = true;
+
+        switch (m_characterType)
+        {
+            case CharacterType.Player:
+                m_moveDirction = Vector3.left;
+                break;
+            case CharacterType.Enemy:
+                m_moveDirction = Vector3.right;
+                break;
+            default:
+                break;
+        }
+
+
         m_currentState = CharacterState.Walk;
         WalkStateEnter();
     }
@@ -85,8 +114,8 @@ public class CharacterBaseScript : ActorScript
                 IdleChangeState();
                 break;
             case CharacterState.Walk:
-                WalkStateUpdate();
-                WalkChangeState();
+                //WalkStateUpdate();
+                //WalkChangeState();
                 break;
             case CharacterState.Attack:
                 AttackStateUpdate();
@@ -101,6 +130,15 @@ public class CharacterBaseScript : ActorScript
         }
     }
 
+
+    private void FixedUpdate()
+    {
+        if (m_currentState == CharacterState.Walk)
+        {
+            WalkStateUpdate();
+            WalkChangeState();
+        }
+    }
 
     //アイドルステートの初期化処理
     private void IdleStateEnter()
@@ -144,7 +182,9 @@ public class CharacterBaseScript : ActorScript
     private void WalkStateUpdate()
     {
         //移動処理
-        transform.Translate(Vector3.right * m_moveSpeed * Time.deltaTime);
+        m_rb.MovePosition(m_rb.position + m_moveDirction * m_moveSpeed * Time.fixedDeltaTime);
+
+        //transform.Translate(Vector3.right * m_moveSpeed * Time.deltaTime);
 
         //攻撃のクールダウン管理
         ManageAttackInterval();
@@ -168,6 +208,8 @@ public class CharacterBaseScript : ActorScript
     //攻撃ステートの初期化処理
     private void AttackStateEnter()
     {
+        Debug.Log("AttackStateEnter");
+
         m_attackingTimer = 0.0f;
         m_canAttack = false;
         m_isAttakking = true;
@@ -235,6 +277,13 @@ public class CharacterBaseScript : ActorScript
     //当たり判定に敵が入ったときの処理
     private void OnTriggerEnter(Collider other)
     {
+        // レイヤーによって通す
+        if (other.gameObject.layer != LayerMask.NameToLayer("EnemyUnit") &&
+           other.gameObject.layer != LayerMask.NameToLayer("PlayerUnit"))
+        {
+            return;
+        }
+
         //自身の射程内に敵が入ったので、それぞれのステートへ遷移
         if (m_canAttack)
         {
@@ -254,6 +303,13 @@ public class CharacterBaseScript : ActorScript
     //当たり判定に敵が滞在しているときの処理
     private void OnTriggerStay(Collider other)
     {
+        // レイヤーによって通す
+        if (other.gameObject.layer != LayerMask.NameToLayer("EnemyUnit") &&
+           other.gameObject.layer != LayerMask.NameToLayer("PlayerUnit"))
+        {
+            return;
+        }
+
         if (m_canAttack)
         {
             IdleStateExit();
