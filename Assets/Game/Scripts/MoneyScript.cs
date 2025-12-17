@@ -62,7 +62,7 @@ public class MoneyScript : MonoBehaviour
             // お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
             // if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
 
-            //レベルアップに必要な金額が貯まっている時
+            // レベルアップに必要な金額が貯まっている時
             if (_currentMoney > _levelUpCosts[MoneyLevel])
             {
                 CanLevelUP = true;
@@ -89,7 +89,7 @@ public class MoneyScript : MonoBehaviour
         // もしお金のレベルがMaxなら
         else
         {
-            //コストの文字を無しと表示する
+            // コストの文字を無しと表示する
             LevelUpCostText.text = "LevelUpCost :";
 
             // レベルをMaxと表示する
