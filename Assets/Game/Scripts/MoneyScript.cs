@@ -89,7 +89,7 @@ public class MoneyScript : MonoBehaviour
         // もしお金のレベルがMaxなら
         else
         {
-            // コストの文字を無しと表示する
+            // コストの文字を無にする
             LevelUpCostText.text = "LevelUpCost :";
 
             // レベルをMaxと表示する
