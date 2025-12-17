@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class SpawnButtonScript : MonoBehaviour
 {
+    // ゲームオブジェクトのプレイヤーを登録する
+    [SerializeField] private GameObject PlayerObject;
+
+    // PlayerObjectにアタッチされたスクリプトを保持する
+    private CharacterBaseScript characterBaseScript;
 
     // ゲームオブジェクトのMoneyManagerを登録する
     [SerializeField] private GameObject MoneyManager;
@@ -30,18 +35,21 @@ public class SpawnButtonScript : MonoBehaviour
     /// </summary>
     void Update()
     {
+        characterBaseScript = PlayerObject.GetComponent<CharacterBaseScript>();
+
         moneyScript = MoneyManager.GetComponent<MoneyScript>();
 
         spawnButton = GetComponent<Button>();
 
         // コストよりも現在のお金があるのなら
-        if(moneyScript._currentMoney > SpawnCost)
+        if (moneyScript._currentMoney > characterBaseScript.GetNeedMoney())
         {
             moneyScript.CanSpawn = true;
 
             spawnButton.onClick.AddListener(() =>
             {
-                moneyScript.Spawn(SpawnCost);
+                moneyScript.Spawn(characterBaseScript.GetNeedMoney());
+
             });
         }
 
