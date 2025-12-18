@@ -32,24 +32,27 @@ public class CharacterBaseScript : ActorScript
     [Header("当たり判定"),          SerializeField] private float m_bodyRange;
     [Header("再出撃までの時間"),    SerializeField] private float m_spawnInterval;
     [Header("再攻撃までの時間"),    SerializeField] private float m_attackInterval;
-    [Header("攻撃にかかる時間"),    SerializeField] private float m_attackingTime;
+    [Header("攻撃にかかる時間"),    SerializeField] private float m_attackkingTime;
     [Header("間合い"),              SerializeField] private SphereCollider m_attackCollider;
     [Header("自身の当たり判定"),    SerializeField] private SphereCollider m_bodyCollider;
     [Header("キャラタイプ"),        SerializeField] private CharacterType m_characterType;
 
 
     private float m_attakIntervalTimer = 0.0f;  //待機時間計測用タイマー
-    private float m_attackingTimer = 0.0f;      //攻撃時間計測用タイマー
+    private float m_attackkingTimer = 0.0f;     //攻撃時間計測用タイマー
+    private bool m_isDetectingEnemy = false;    //敵を感知しているかどうか
     private bool m_canAttack = true;            //攻撃可能かどうか
-    private bool m_isAttakking = false;         //攻撃中かどうか
-    private bool m_isAttackInterval = false;    //攻撃がクールダウン中かどうか
+    private bool m_isAttackking = false;        //攻撃中かどうか
     private bool m_isDie = false;               //死亡しているかどうか
 
-    private Vector3 m_moveDirction = Vector3.zero;    //移動方向ベクトル
+    protected Vector3 m_moveDirction = Vector3.zero;    //移動方向ベクトル
 
     private CharacterState m_currentState = CharacterState.None;
     private Rigidbody m_rb;
 
+
+    private int m_playerUnitID = 0;
+    private int m_enemyUnitID = 0;
 
     //キャラ生産に必要なお金を取得
     public int GetNeedMoney()
@@ -90,18 +93,9 @@ void Start()
         //慣性挙動無効化
         m_rb.isKinematic = true;
 
-        switch (m_characterType)
-        {
-            case CharacterType.Player:
-                m_moveDirction = Vector3.left;
-                break;
-            case CharacterType.Enemy:
-                m_moveDirction = Vector3.right;
-                break;
-            default:
-                break;
-        }
-
+        //プレイヤーと敵のレイヤーのIDを取得
+        m_playerUnitID = LayerMask.NameToLayer("PlayerUnit");
+        m_enemyUnitID = LayerMask.NameToLayer("EnemyUnit");
 
         m_currentState = CharacterState.Walk;
         WalkStateEnter();
@@ -123,8 +117,6 @@ void Start()
                 IdleChangeState();
                 break;
             case CharacterState.Walk:
-                //WalkStateUpdate();
-                //WalkChangeState();
                 break;
             case CharacterState.Attack:
                 AttackStateUpdate();
@@ -135,11 +127,13 @@ void Start()
                 DieChangeState();
                 break;
             default:
+                Debug.LogError("不正なステートです");
                 break;
         }
     }
 
 
+    //物理演算更新処理
     private void FixedUpdate()
     {
         if (m_currentState == CharacterState.Walk)
@@ -149,14 +143,18 @@ void Start()
         }
     }
 
+
     //アイドルステートの初期化処理
     private void IdleStateEnter()
     {
+        Debug.Log("IdleStateEnter");
     }
+
 
     //アイドルステートの更新処理
     private void IdleStateUpdate()
     {
+        //攻撃のインターバル管理
         ManageAttackInterval();
     }
 
@@ -171,29 +169,43 @@ void Start()
     //アイドルステートの状態遷移処理
     private void IdleChangeState()
     {
+
+        //敵を感知していなければ歩きステートへ
+        if (!m_isDetectingEnemy)
+        {
+            IdleStateExit();
+            m_currentState = CharacterState.Walk;
+            WalkStateEnter();
+            return;
+        }
+
+
+        //攻撃可能なら攻撃ステートへ
         if (m_canAttack)
         {
             IdleStateExit();
             m_currentState = CharacterState.Attack;
             AttackStateEnter();
         }
+        //攻撃不可なら処理を抜ける
+        else
+        {
+            return;
+        }
     }
-
-
 
     //歩きステートの初期化処理
     private void WalkStateEnter()
     {
-
+        Debug.Log("WalkStateEnter");
     }
+
 
     //歩きステートの更新処理
     private void WalkStateUpdate()
     {
         //移動処理
         m_rb.MovePosition(m_rb.position + m_moveDirction * m_moveSpeed * Time.fixedDeltaTime);
-
-        //transform.Translate(Vector3.right * m_moveSpeed * Time.deltaTime);
 
         //攻撃のクールダウン管理
         ManageAttackInterval();
@@ -210,7 +222,26 @@ void Start()
     //歩きステートの状態遷移処理
     private void WalkChangeState()
     {
+        //敵を感知していなければ処理を抜ける
+        if (!m_isDetectingEnemy)
+        {
+            return;
+        }
 
+        //攻撃可能なら攻撃ステートへ
+        if (m_canAttack)
+        {
+            WalkStateExit();
+            m_currentState = CharacterState.Attack;
+            AttackStateEnter();
+        }
+        //攻撃不可ならアイドルステートへ
+        else
+        {
+            WalkStateExit();
+            m_currentState = CharacterState.Idle;
+            IdleStateEnter();
+        }
     }
 
 
@@ -219,47 +250,60 @@ void Start()
     {
         Debug.Log("AttackStateEnter");
 
-        m_attackingTimer = 0.0f;
+        //攻撃中フラグを立てる
+        m_isAttackking = true;
         m_canAttack = false;
-        m_isAttakking = true;
+        m_attackkingTimer = 0.0f;
+        m_attakIntervalTimer = 0.0f;
     }
 
 
     //攻撃ステートの更新処理
     private void AttackStateUpdate()
     {
-        m_attackingTimer += Time.deltaTime;
+        ManageAttackkingTimer();
     }
 
 
     //攻撃ステートの終了処理
     private void AttackStateExit()
     {
-        m_canAttack = false;
-        m_isAttackInterval = true;
-        m_isAttakking = false;
+        
     }
 
 
     //攻撃ステートの状態遷移処理
     private void AttackChangeState()
     {
-        //攻撃中であれば処理を抜ける
-        if (m_attackingTimer <= m_attackingTime)
+        //まだ攻撃中であれば処理を抜ける
+        if (m_isAttackking)
         {
             return;
         }
 
-        //攻撃を終了したので、タイマーをリセット
-        m_attackingTimer = 0.0f;
+        //攻撃完了
 
-        AttackStateExit();
+        //敵を感知していればアイドルステートへ
+        if (m_isDetectingEnemy)
+        {
+            AttackStateExit();
+            m_currentState = CharacterState.Idle;
+            IdleStateEnter();
+        }
+        //敵を感知していなければ歩きステートへ
+        else
+        {
+            AttackStateExit();
+            m_currentState = CharacterState.Walk;
+            WalkStateEnter();
+        }
     }
 
 
     //死亡ステートの初期化処理
     private void DieStateEnter()
     {
+        Debug.Log("DieStateEnter");
     }
 
 
@@ -283,76 +327,32 @@ void Start()
     }
 
 
-    //当たり判定に敵が入ったときの処理
-    private void OnTriggerEnter(Collider other)
-    {
-        // レイヤーによって通す
-        if (other.gameObject.layer != LayerMask.NameToLayer("EnemyUnit") &&
-           other.gameObject.layer != LayerMask.NameToLayer("PlayerUnit"))
-        {
-            return;
-        }
-
-        //自身の射程内に敵が入ったので、それぞれのステートへ遷移
-        if (m_canAttack)
-        {
-            WalkStateExit();
-            m_currentState = CharacterState.Attack;
-            AttackStateEnter();
-        }
-        else
-        {
-            WalkStateExit();
-            m_currentState = CharacterState.Idle;
-            IdleStateEnter();
-        }
-    }
-
 
     //当たり判定に敵が滞在しているときの処理
     private void OnTriggerStay(Collider other)
     {
-        // レイヤーによって通す
-        if (other.gameObject.layer != LayerMask.NameToLayer("EnemyUnit") &&
-           other.gameObject.layer != LayerMask.NameToLayer("PlayerUnit"))
+        //感知したオブジェクトがプレイヤーか敵でなければ処理を抜ける
+        if (other.gameObject.layer != m_playerUnitID && 
+            other.gameObject.layer != m_enemyUnitID)
         {
             return;
         }
 
-        if (m_canAttack)
-        {
-            IdleStateExit();
-            m_currentState = CharacterState.Attack;
-            AttackStateEnter();
-        }
-
-        ManageAttackInterval();
+        m_isDetectingEnemy = true;
     }
 
 
     //当たり判定から敵が出たときの処理
     private void OnTriggerExit(Collider other)
     {
-        //攻撃中であれば処理を抜ける
-        if (m_isAttakking)
+        //感知したオブジェクトがプレイヤーか敵でなければ処理を抜ける
+        if (other.gameObject.layer != m_playerUnitID &&
+            other.gameObject.layer != m_enemyUnitID)
         {
             return;
         }
 
-        switch (m_currentState)
-        {
-            case CharacterState.Idle:
-                IdleStateExit();
-                break;
-            case CharacterState.Attack:
-                AttackStateExit();
-                break;
-            default:
-                break;
-        }
-
-        m_currentState = CharacterState.Walk;
-        WalkStateEnter();
+        m_isDetectingEnemy = false;
     }
 
 
@@ -360,26 +360,46 @@ void Start()
     //攻撃のクールダウンを管理する
     private void ManageAttackInterval()
     {
-        //攻撃可能であれば処理を抜ける
-        if (m_canAttack)
+        //攻撃中であれば処理を抜ける
+        if (m_isAttackking)
         {
+            m_canAttack = false;
+            m_attakIntervalTimer = 0.0f;
             return;
         }
 
-        //攻撃がクールダウン中でなければ処理を抜ける
-        if (!m_isAttackInterval)
-        {
-            return;
-        }
-
-        m_isAttackInterval = false;
         m_attakIntervalTimer += Time.deltaTime;
 
-        //攻撃のクールダウンが終了したら、攻撃可能にする
+        //攻撃インターバル時間を超えたら攻撃可能にする
         if (m_attakIntervalTimer >= m_attackInterval)
         {
+            //フラグとタイマーをリセット
             m_canAttack = true;
             m_attakIntervalTimer = 0.0f;
+        }
+    }
+
+
+    //攻撃実行中の時間を管理する
+    private void ManageAttackkingTimer()
+    {
+        //現在攻撃可能であれば処理を抜ける
+        if (m_canAttack)
+        {
+            m_isAttackking = false;
+            m_attackkingTimer = 0.0f;
+            return;
+        }
+
+
+        m_attackkingTimer += Time.deltaTime;
+
+        //攻撃時間を超えたら攻撃完了
+        if (m_attackkingTimer >= m_attackkingTime)
+        {
+            //フラグとタイマーをリセット
+            m_isAttackking = false;
+            m_attackkingTimer = 0.0f;
         }
     }
 }
