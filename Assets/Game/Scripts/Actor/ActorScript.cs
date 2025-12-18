@@ -1,9 +1,15 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class ActorScript : MonoBehaviour
 {
+    [Header("最大体力"), SerializeField] protected int maxHealth_;
+    [Header("自身の当たり判定"), SerializeField] protected SphereCollider bodyCollider_;
+
+
+    protected int health_ = 0;              //現在の体力
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,4 +25,13 @@ public abstract class ActorScript : MonoBehaviour
 
 
     protected abstract void UpdateObject();
+
+
+
+    //ダメージを受け取る処理
+    public void ReceiveDamage(int damage)
+    {
+        health_ -= damage;
+        Debug.Log("Damage:" + damage);
+    }
 }
