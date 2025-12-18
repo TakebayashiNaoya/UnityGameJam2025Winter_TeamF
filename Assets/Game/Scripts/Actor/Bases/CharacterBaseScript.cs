@@ -202,7 +202,7 @@ public class CharacterBaseScript : ActorScript
 
 
         //敵を感知していなければ歩きステートへ
-        if (foundList_ == null)
+        if (foundList_.Count == 0)
         {
             IdleStateExit();
             currentState_ = CharacterState.Walk;
@@ -262,7 +262,7 @@ public class CharacterBaseScript : ActorScript
 
 
         //敵を感知していなければ処理を抜ける
-        if (foundList_ == null)
+        if (foundList_.Count == 0)
         {
             return;
         }
@@ -333,7 +333,7 @@ public class CharacterBaseScript : ActorScript
         attackkingTimer_ = 0.0f;
 
         //敵を見つけていればアイドルステートへ
-        if (foundList_ != null)
+        if (foundList_.Count != 0)
         {
             AttackStateExit();
             currentState_ = CharacterState.Idle;
@@ -381,15 +381,27 @@ public class CharacterBaseScript : ActorScript
     //当たり判定に敵が入ったときの処理
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("FoundEnemy");
+
         int layer = other.gameObject.layer;
         if (layer != myLayer_ && layer != targetLayer_)
         {
             return;
         }
 
-        Debug.Log("FoundEnemy");
+        CharacterBaseScript character = other.GetComponent<CharacterBaseScript>();
 
-        foundList_.Add(attackCollider_);
+        if (other == character.attackCollider_)
+        {
+            return;
+        }
+
+       if(other == character.bodyCollider_)
+        {
+            foundList_.Add(character.attackCollider_);
+        }
+
+        
     }
 
     //当たり判定から敵が出たときの処理
@@ -402,12 +414,26 @@ public class CharacterBaseScript : ActorScript
             return;
         }
 
-        foundList_.Remove(other);
-        if (foundList_.Count <= 0)
+
+        CharacterBaseScript character = other.GetComponent<CharacterBaseScript>();
+
+        if (other == character.attackCollider_)
         {
-            foundList_.Clear();
-            foundList_ = null;            
+            return;
         }
+
+        if (other == character.bodyCollider_)
+        {
+            foundList_.Remove(other);
+            if (foundList_.Count <= 0)
+            {
+                foundList_.Clear();
+                foundList_ = null;
+            }
+        }
+        
+
+        
     }
 
 
