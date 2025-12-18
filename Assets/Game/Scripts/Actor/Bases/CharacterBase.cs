@@ -1,7 +1,6 @@
 ﻿//
 //キャラクターベースクラス
 //
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -32,9 +31,9 @@ public enum CharacterType
 }
 
 
-public class CharacterBaseScript : ActorScript
+public class CharacterBase : Actor
 {
-    [Header("出撃に必要なお金"),    SerializeField] private int needMoney_;    
+    [Header("キャラコスト"),        SerializeField] private int charaCost_;    
     [Header("移動速度"),            SerializeField] private float moveSpeed_;
     [Header("攻撃力"),              SerializeField] private float attackPower_;
     [Header("射程"),                SerializeField] private float attackRange_;
@@ -46,13 +45,12 @@ public class CharacterBaseScript : ActorScript
     [Header("攻撃タイプ"),          SerializeField] private AttackType attackType_;
     
 
-    private List<Collider> foundList_ = new List<Collider>(); //感知した敵のリスト
+    private List<CharacterBase> foundList_ = new List<CharacterBase>(); //感知した敵のリスト
 
     private float attackIntervalTimer_ = 0.0f; //待機時間計測用タイマー
     private float attackkingTimer_ = 0.0f;     //攻撃時間計測用タイマー
+    private bool isFind_ = false;         //敵を感知しているかどうかのフラグ
 
-    protected Vector3 moveDirction_ = Vector3.zero;    //移動方向ベクトル
-    protected CharacterType characterType_ = CharacterType.None; //キャラクタータイプ
     private CharacterState currentState_ = CharacterState.None;
     private Rigidbody rb_;
 
@@ -60,15 +58,30 @@ public class CharacterBaseScript : ActorScript
     protected string targetTag_ = "";             //敵のタグ
     protected int myLayer_ = 0;                  //自分のレイヤーID
     protected int targetLayer_ = 0;               //敵のレイヤーID
+    protected Vector3 moveDirction_ = Vector3.zero;    //移動方向ベクトル
+    protected CharacterType characterType_ = CharacterType.None; //キャラクタータイプ
 
 
-    //キャラ生産に必要なお金を取得
+    //感知した敵リストをクリーンアップする
+    private void CleanUpFindingTargets()
+    {
+        //null参照を削除
+        foundList_.RemoveAll(target => target == null);
+
+        if (foundList_.Count == 0)
+        {
+            isFind_ = false;
+        }
+    }
+
+    //キャラクターの金額を取得する
     public int GetNeedMoney()
     {
-       return needMoney_;
+       return charaCost_;
     }
 
 
+    //再出撃までの時間を取得する
     public float GetSpawnInterval()
     {
         return spawnInterval_;
@@ -123,6 +136,7 @@ public class CharacterBaseScript : ActorScript
 
     protected override void UpdateObject()
     {
+        CleanUpFindingTargets();
         CharacterStateMachine();
     }
 
@@ -202,7 +216,7 @@ public class CharacterBaseScript : ActorScript
 
 
         //敵を感知していなければ歩きステートへ
-        if (foundList_.Count == 0)
+        if (!isFind_)
         {
             IdleStateExit();
             currentState_ = CharacterState.Walk;
@@ -262,7 +276,7 @@ public class CharacterBaseScript : ActorScript
 
 
         //敵を感知していなければ処理を抜ける
-        if (foundList_.Count == 0)
+        if (!isFind_)
         {
             return;
         }
@@ -381,59 +395,42 @@ public class CharacterBaseScript : ActorScript
     //当たり判定に敵が入ったときの処理
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("FoundEnemy");
+        CharacterBase target = other.GetComponent<CharacterBase>();
 
-        int layer = other.gameObject.layer;
-        if (layer != myLayer_ && layer != targetLayer_)
+        //targetがnull参照なら処理を抜ける
+        if (target == null)
+        {
+            return;
+        }
+        //targetが攻撃対象でなければ処理を抜ける
+        if (target.gameObject.layer != targetLayer_)
         {
             return;
         }
 
-        CharacterBaseScript character = other.GetComponent<CharacterBaseScript>();
-
-        if (other == character.attackCollider_)
+        if (!foundList_.Contains(target))
         {
-            return;
+            foundList_.Add(target);
         }
 
-       if(other == character.bodyCollider_)
-        {
-            foundList_.Add(character.attackCollider_);
-        }
-
-        
+        isFind_ = true;
     }
+
 
     //当たり判定から敵が出たときの処理
     private void OnTriggerExit(Collider other)
     {
-        //感知したオブジェクトがプレイヤーか敵でなければ処理を抜ける
-        if (other.gameObject.layer != myLayer_ &&
-            other.gameObject.layer != targetLayer_)
+        CharacterBase target = other.GetComponent<CharacterBase>();
+
+        if (target == null)
         {
             return;
         }
 
-
-        CharacterBaseScript character = other.GetComponent<CharacterBaseScript>();
-
-        if (other == character.attackCollider_)
+        if (foundList_.Contains(target))
         {
-            return;
-        }
-
-        if (other == character.bodyCollider_)
-        {
-            foundList_.Remove(other);
-            if (foundList_.Count <= 0)
-            {
-                foundList_.Clear();
-                foundList_ = null;
-            }
-        }
-        
-
-        
+            foundList_.Remove(target);
+        }       
     }
 
 
@@ -513,7 +510,7 @@ public class CharacterBaseScript : ActorScript
             {
                 //攻撃対象にダメージを与える
                 Debug.Log("Attack Target:" + target.name);
-                CharacterBaseScript targetCharacter = target.GetComponent<CharacterBaseScript>();
+                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }
@@ -530,7 +527,7 @@ public class CharacterBaseScript : ActorScript
         //最も近い攻撃対象を取得するための変数
         float lengthMin = float.MaxValue;
 
-        //攻撃対象にダメージを与える
+        //攻撃対象との距離を比較し、最も近い攻撃対象を取得
         foreach (var target in foundList_)
         {
             //攻撃対象の方向ベクトルを取得
@@ -557,7 +554,7 @@ public class CharacterBaseScript : ActorScript
             if (lengthMin == length)
             {
                 Debug.Log("Attack Target:" + target.name);
-                CharacterBaseScript targetCharacter = target.GetComponent<CharacterBaseScript>();
+                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }

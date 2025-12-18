@@ -11,7 +11,7 @@ public class SpawnButtonScript : MonoBehaviour
     [SerializeField] private GameObject playerObject_;
 
     // PlayerObjectにアタッチされたスクリプトを保持する
-    private CharacterBaseScript characterBaseScript_;
+    private CharacterBase characterBaseScript_;
 
     // ゲームオブジェクトのMoneyManagerを登録する
     [SerializeField] private GameObject moneyManager_;
@@ -30,7 +30,7 @@ public class SpawnButtonScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        characterBaseScript_ = playerObject_.GetComponent<CharacterBaseScript>();
+        characterBaseScript_ = playerObject_.GetComponent<CharacterBase>();
 
         moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
 
