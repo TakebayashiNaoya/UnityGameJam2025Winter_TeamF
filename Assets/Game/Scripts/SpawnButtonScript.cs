@@ -77,9 +77,8 @@ public class SpawnButtonScript : MonoBehaviour
             if(SpawnManager.instance != null)
             {
                 SpawnManager.instance.SpawnRequest(playerObject_);
+                SoundManager.instance.PlaySe(spawnSe_);
             }
         }
-
-        SoundManager.instance.PlaySe(spawnSe_);
     }
 }
