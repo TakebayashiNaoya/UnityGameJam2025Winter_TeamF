@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//
+//アクタークラス
+//
 using UnityEngine;
 
-public abstract class ActorScript : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
-    [Header("最大体力"), SerializeField] protected int maxHealth_;
+    [Header("最大体力"),         SerializeField] protected int maxHealth_;
     [Header("自身の当たり判定"), SerializeField] protected SphereCollider bodyCollider_;
 
 
