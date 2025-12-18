@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1237385766540738369}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_bodyRange: 0.36
   m_spawnInterval: 3
   m_attackInterval: 2
-  m_attackingTime: 0.4
+  m_attackkingTime: 0
   m_attackCollider: {fileID: 2684568431941898825}
   m_bodyCollider: {fileID: 8130215571516583056}
   m_characterType: 2

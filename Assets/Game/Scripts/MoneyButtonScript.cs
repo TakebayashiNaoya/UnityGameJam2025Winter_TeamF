@@ -9,21 +9,21 @@ using UnityEngine.UI;
 public class MoneyButtonScript : MonoBehaviour
 {
     // ゲームオブジェクトのMoneyManagerを登録する
-    [SerializeField] GameObject MoneyManager;
+    [SerializeField] private GameObject moneyManager_;
 
     // MoneyManagerにアタッチされたスクリプトを保持する
-    MoneyScript moneyScript;
+    private MoneyScript moneyScript_;
 
     // ボタン
     Button moneyButton;
 
     // 現在のスプライト
-    public Sprite CurrentSprite;
+    public Sprite currentSprite;
 
     // レベルアップ可能になった時のスプライト
-    public Sprite CanLevelUpSprite;
+    public Sprite canLevelUpSprite;
 
-    private Image _image;
+    private Image image_;
 
     [Header("レベルアップSE"), SerializeField] private AudioClip LevelUpSE;
 
@@ -31,36 +31,36 @@ public class MoneyButtonScript : MonoBehaviour
     void Start()
     {
         // Imageコンポーネントを取得
-        _image = GetComponent<Image>();
+        image_ = GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        moneyScript = MoneyManager.GetComponent<MoneyScript>();
+        moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
 
         moneyButton = GetComponent<Button>();
 
         moneyButton.onClick.AddListener(() =>
         {
-            moneyScript.LevelUp();
+            moneyScript_.LevelUp();
 
             // レベルアップしたら画像を元に戻す
-            _image.sprite = CurrentSprite;
+            image_.sprite = currentSprite;
         });
 
         // もしレベルアップ可能だったら
-        if(moneyScript.CanLevelUP)
+        if(moneyScript_.canLevelUP)
         {
             // レベルアップ可能用の画像にする
-            _image.sprite = CanLevelUpSprite;
+            image_.sprite = canLevelUpSprite;
         }
 
         // それ以外は
         else
         {
             // そのまま
-            _image.sprite = CurrentSprite;
+            image_.sprite = currentSprite;
         }
     }
 }
