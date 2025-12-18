@@ -325,6 +325,10 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5924024249098648523, guid: c954f32ad01005d4a9f8f02d410beaf7, type: 3}
+      propertyPath: m_maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5924024249098648523, guid: c954f32ad01005d4a9f8f02d410beaf7, type: 3}
       propertyPath: m_attackInterval
       value: 2
       objectReference: {fileID: 0}
@@ -388,6 +392,10 @@ PrefabInstance:
     - target: {fileID: 6883903112337564289, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285234586549716315, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
+      propertyPath: m_maxHealth
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8285234586549716315, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
       propertyPath: m_attackInterval

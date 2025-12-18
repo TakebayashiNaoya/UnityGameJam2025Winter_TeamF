@@ -14,6 +14,14 @@ public enum CharacterState
 }
 
 
+public enum AttackType
+{
+    None,
+    Single,
+    Range
+}
+
+
 public enum CharacterType
 {
     None,
@@ -25,7 +33,7 @@ public enum CharacterType
 public class CharacterBaseScript : ActorScript
 {
     [Header("出撃に必要なお金"),    SerializeField] private int m_needMoney;
-    [Header("体力"),                SerializeField] private float m_health;
+    [Header("体力"),                SerializeField] private float m_maxHealth;
     [Header("移動速度"),            SerializeField] private float m_moveSpeed;
     [Header("攻撃力"),              SerializeField] private float m_attackPower;
     [Header("射程"),                SerializeField] private float m_attackRange;
@@ -35,15 +43,13 @@ public class CharacterBaseScript : ActorScript
     [Header("攻撃にかかる時間"),    SerializeField] private float m_attackkingTime;
     [Header("間合い"),              SerializeField] private SphereCollider m_attackCollider;
     [Header("自身の当たり判定"),    SerializeField] private SphereCollider m_bodyCollider;
+    [Header("攻撃タイプ"),          SerializeField] private AttackType m_attackType;
     [Header("キャラタイプ"),        SerializeField] private CharacterType m_characterType;
 
-
-    private float m_attakIntervalTimer = 0.0f;  //待機時間計測用タイマー
+    private float m_health = 0.0f;              //現在の体力
+    private float m_attackIntervalTimer = 0.0f; //待機時間計測用タイマー
     private float m_attackkingTimer = 0.0f;     //攻撃時間計測用タイマー
     private bool m_isDetectingEnemy = false;    //敵を感知しているかどうか
-    private bool m_canAttack = true;            //攻撃可能かどうか
-    private bool m_isAttackking = false;        //攻撃中かどうか
-    private bool m_isDie = false;               //死亡しているかどうか
 
     protected Vector3 m_moveDirction = Vector3.zero;    //移動方向ベクトル
 
@@ -51,8 +57,8 @@ public class CharacterBaseScript : ActorScript
     private Rigidbody m_rb;
 
 
-    private int m_playerUnitID = 0;
-    private int m_enemyUnitID = 0;
+    private int m_playerUnitID = 0;             //プレイヤーユニットのレイヤーID
+    private int m_enemyUnitID = 0;              //エネミーユニットのレイヤーID
 
     //キャラ生産に必要なお金を取得
     public int GetNeedMoney()
@@ -78,15 +84,14 @@ void Start()
     private void OnValidate()
     {
         m_attackCollider.radius = m_attackRange;
+        m_attackCollider.isTrigger = true;
         m_bodyCollider.radius = m_bodyRange;
+        m_bodyCollider.isTrigger = true;
     }
 
 
     protected override void InitializeObject()
     {
-        m_attackCollider.radius = m_attackRange;
-        m_bodyCollider.radius = m_bodyRange;
-
         m_rb = GetComponent<Rigidbody>();
         //重力無効化
         m_rb.useGravity = false;
@@ -97,6 +102,14 @@ void Start()
         m_playerUnitID = LayerMask.NameToLayer("PlayerUnit");
         m_enemyUnitID = LayerMask.NameToLayer("EnemyUnit");
 
+        //タイマーをリセット
+        m_attackIntervalTimer = 0.0f;
+        m_attackkingTimer = 0.0f;
+
+        //体力を最大体力に設定
+        m_health = m_maxHealth;
+
+        //初期ステートを歩きステートに設定
         m_currentState = CharacterState.Walk;
         WalkStateEnter();
     }
@@ -108,6 +121,7 @@ void Start()
     }
 
 
+    //キャラクターのステートマシン
     private void CharacterStateMachine()
     {
         switch (m_currentState)
@@ -127,6 +141,7 @@ void Start()
                 DieChangeState();
                 break;
             default:
+                //不正なステート
                 Debug.LogError("不正なステートです");
                 break;
         }
@@ -148,6 +163,9 @@ void Start()
     private void IdleStateEnter()
     {
         Debug.Log("IdleStateEnter");
+
+        //攻撃のインターバル管理用タイマーをリセット
+        m_attackIntervalTimer = 0.0f;
     }
 
 
@@ -155,20 +173,27 @@ void Start()
     private void IdleStateUpdate()
     {
         //攻撃のインターバル管理
-        ManageAttackInterval();
+        m_attackIntervalTimer += Time.deltaTime;
     }
 
 
     //アイドルステートの終了処理
     private void IdleStateExit()
     {
-
+        m_attackIntervalTimer = 0.0f;
     }
 
 
     //アイドルステートの状態遷移処理
     private void IdleChangeState()
     {
+        if (JudgeDie())
+        {
+            IdleStateExit();
+            m_currentState = CharacterState.Die;
+            DieStateEnter();
+        }
+
 
         //敵を感知していなければ歩きステートへ
         if (!m_isDetectingEnemy)
@@ -180,14 +205,14 @@ void Start()
         }
 
 
-        //攻撃可能なら攻撃ステートへ
-        if (m_canAttack)
+        //攻撃インターバルが完了していれば攻撃ステートへ
+        if (JudgeAttackIntervalComplete())
         {
             IdleStateExit();
             m_currentState = CharacterState.Attack;
             AttackStateEnter();
         }
-        //攻撃不可なら処理を抜ける
+        //攻撃インターバルが完了していなければ処理を抜ける
         else
         {
             return;
@@ -207,35 +232,43 @@ void Start()
         //移動処理
         m_rb.MovePosition(m_rb.position + m_moveDirction * m_moveSpeed * Time.fixedDeltaTime);
 
-        //攻撃のクールダウン管理
-        ManageAttackInterval();
+        //攻撃のインターバル
+        m_attackIntervalTimer += Time.deltaTime;
     }
 
 
     //歩きステートの終了処理
     private void WalkStateExit()
     {
-
+        Debug.Log("FoundEnemy");
     }
 
 
     //歩きステートの状態遷移処理
     private void WalkChangeState()
     {
+        if (JudgeDie())
+        {
+            WalkStateExit();
+            m_currentState = CharacterState.Die;
+            DieStateEnter();
+        }
+
+
         //敵を感知していなければ処理を抜ける
         if (!m_isDetectingEnemy)
         {
             return;
         }
 
-        //攻撃可能なら攻撃ステートへ
-        if (m_canAttack)
+        //攻撃インターバルが完了していれば
+        if (JudgeAttackIntervalComplete())
         {
             WalkStateExit();
             m_currentState = CharacterState.Attack;
             AttackStateEnter();
         }
-        //攻撃不可ならアイドルステートへ
+        //攻撃インターバルが完了していなければ
         else
         {
             WalkStateExit();
@@ -250,39 +283,49 @@ void Start()
     {
         Debug.Log("AttackStateEnter");
 
-        //攻撃中フラグを立てる
-        m_isAttackking = true;
-        m_canAttack = false;
+        //攻撃発生タイマーをリセット
         m_attackkingTimer = 0.0f;
-        m_attakIntervalTimer = 0.0f;
     }
 
 
     //攻撃ステートの更新処理
     private void AttackStateUpdate()
     {
-        ManageAttackkingTimer();
+        m_attackkingTimer += Time.deltaTime;
     }
 
 
     //攻撃ステートの終了処理
     private void AttackStateExit()
     {
-        
+        m_attackkingTimer = 0.0f;
     }
 
 
     //攻撃ステートの状態遷移処理
     private void AttackChangeState()
     {
-        //まだ攻撃中であれば処理を抜ける
-        if (m_isAttackking)
+        if (JudgeDie())
+        {
+            AttackStateExit();
+            m_currentState = CharacterState.Die;
+            DieStateEnter();
+        }
+
+        //攻撃が完了していなければ処理を抜ける
+        if (!JudgeAttackComplete())
         {
             return;
         }
 
+        ///////////
         //攻撃完了
+        ///////////
+        
+        //タイマーをリセット
+        m_attackkingTimer = 0.0f;
 
+        
         //敵を感知していればアイドルステートへ
         if (m_isDetectingEnemy)
         {
@@ -317,13 +360,14 @@ void Start()
     //死亡ステートの終了処理
     private void DieStateExit()
     {
+        Destroy(this.gameObject);
     }
 
 
     //死亡ステートの状態遷移処理
     private void DieChangeState()
     {
-
+        DieStateExit();
     }
 
 
@@ -356,50 +400,44 @@ void Start()
     }
 
 
-
-    //攻撃のクールダウンを管理する
-    private void ManageAttackInterval()
+    //攻撃インターバルが完了したかどうかを判定
+    private bool JudgeAttackIntervalComplete()
     {
-        //攻撃中であれば処理を抜ける
-        if (m_isAttackking)
+        if (m_attackIntervalTimer >= m_attackInterval)
         {
-            m_canAttack = false;
-            m_attakIntervalTimer = 0.0f;
-            return;
+            return true;
         }
-
-        m_attakIntervalTimer += Time.deltaTime;
-
-        //攻撃インターバル時間を超えたら攻撃可能にする
-        if (m_attakIntervalTimer >= m_attackInterval)
-        {
-            //フラグとタイマーをリセット
-            m_canAttack = true;
-            m_attakIntervalTimer = 0.0f;
-        }
+        return false;
     }
 
 
-    //攻撃実行中の時間を管理する
-    private void ManageAttackkingTimer()
+    //攻撃が完了したかどうかを判定
+    private bool JudgeAttackComplete()
     {
-        //現在攻撃可能であれば処理を抜ける
-        if (m_canAttack)
-        {
-            m_isAttackking = false;
-            m_attackkingTimer = 0.0f;
-            return;
-        }
-
-
-        m_attackkingTimer += Time.deltaTime;
-
-        //攻撃時間を超えたら攻撃完了
         if (m_attackkingTimer >= m_attackkingTime)
         {
-            //フラグとタイマーをリセット
-            m_isAttackking = false;
-            m_attackkingTimer = 0.0f;
+            return true;
         }
+        return false;
+    }
+
+
+    //死んでいるかどうかを判定
+    private bool JudgeDie()
+    {
+        if (m_health <= 0.0f)
+        {
+            m_health = 0.0f;
+            return true;
+        }
+        return false;
+    }
+
+
+
+    //攻撃処理
+    private void Attack()
+    {
+        //攻撃処理
     }
 }
