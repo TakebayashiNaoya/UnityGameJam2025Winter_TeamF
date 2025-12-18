@@ -103,7 +103,7 @@ MonoBehaviour:
   maxHealth_: 90
   bodyCollider_: {fileID: 2684568431941898825}
   charaCost_: 15
-  moveSpeed_: 5
+  moveSpeed_: 0.5
   attackPower_: 8
   attackRange_: 1.1
   bodyRange_: 0.4

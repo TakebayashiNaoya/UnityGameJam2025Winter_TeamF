@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//
+//味方キャラクターのクラス
+//
 using UnityEngine;
 
-public class PlayerUnit : CharacterBaseScript
+public class PlayerUnit : CharacterBase
 {
     // Start is called before the first frame update
     void Start()
