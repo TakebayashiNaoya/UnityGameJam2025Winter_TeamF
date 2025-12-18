@@ -21,8 +21,7 @@ public class SpawnButtonScript : MonoBehaviour
     // ボタン
     private Button spawnButton;
 
-    // キャラのスポーンにかかるコスト
-    [SerializeField] private int SpawnCost;
+    [Header("スポーンSE"), SerializeField] private AudioClip SpawnSE;
 
     // Start is called before the first frame update
     void Start()
@@ -49,6 +48,7 @@ public class SpawnButtonScript : MonoBehaviour
             spawnButton.onClick.AddListener(() =>
             {
                 moneyScript.Spawn(characterBaseScript.GetNeedMoney());
+                SoundManager.instance.PlaySe(SpawnSE);
 
             });
         }

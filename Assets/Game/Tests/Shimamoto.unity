@@ -614,7 +614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerObject: {fileID: 6883903112337564289, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
   MoneyManager: {fileID: 1916396312}
-  SpawnCost: 75
+  SpawnSE: {fileID: 8300000, guid: 8b5da496b3a3dda4e9e3be66242b9bba, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
