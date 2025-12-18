@@ -3,6 +3,7 @@
 //
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum CharacterState
 {
@@ -10,7 +11,8 @@ public enum CharacterState
     Idle,
     Walk,
     Attack,
-    Die
+    Die,
+    StateMax
 }
 
 
@@ -32,44 +34,50 @@ public enum CharacterType
 
 public class CharacterBaseScript : ActorScript
 {
-    [Header("出撃に必要なお金"),    SerializeField] private int m_needMoney;
-    [Header("体力"),                SerializeField] private float m_maxHealth;
-    [Header("移動速度"),            SerializeField] private float m_moveSpeed;
-    [Header("攻撃力"),              SerializeField] private float m_attackPower;
-    [Header("射程"),                SerializeField] private float m_attackRange;
-    [Header("当たり判定"),          SerializeField] private float m_bodyRange;
-    [Header("再出撃までの時間"),    SerializeField] private float m_spawnInterval;
-    [Header("再攻撃までの時間"),    SerializeField] private float m_attackInterval;
-    [Header("攻撃にかかる時間"),    SerializeField] private float m_attackkingTime;
-    [Header("間合い"),              SerializeField] private SphereCollider m_attackCollider;
-    [Header("自身の当たり判定"),    SerializeField] private SphereCollider m_bodyCollider;
-    [Header("攻撃タイプ"),          SerializeField] private AttackType m_attackType;
-    [Header("キャラタイプ"),        SerializeField] private CharacterType m_characterType;
+    [Header("出撃に必要なお金"),    SerializeField] private int needMoney_;    
+    [Header("移動速度"),            SerializeField] private float moveSpeed_;
+    [Header("攻撃力"),              SerializeField] private float attackPower_;
+    [Header("射程"),                SerializeField] private float attackRange_;
+    [Header("当たり判定"),          SerializeField] private float bodyRange_;
+    [Header("再出撃までの時間"),    SerializeField] private float spawnInterval_;
+    [Header("再攻撃までの時間"),    SerializeField] private float attackInterval_;
+    [Header("攻撃にかかる時間"),    SerializeField] private float attackkingTime_;
+    [Header("間合い"),              SerializeField] private SphereCollider attackCollider_;    
+    [Header("攻撃タイプ"),          SerializeField] private AttackType attackType_;
+    
 
-    private float m_health = 0.0f;              //現在の体力
-    private float m_attackIntervalTimer = 0.0f; //待機時間計測用タイマー
-    private float m_attackkingTimer = 0.0f;     //攻撃時間計測用タイマー
-    private bool m_isDetectingEnemy = false;    //敵を感知しているかどうか
+    private List<Collider> foundList_ = new List<Collider>(); //感知した敵のリスト
 
-    protected Vector3 m_moveDirction = Vector3.zero;    //移動方向ベクトル
+    private float attackIntervalTimer_ = 0.0f; //待機時間計測用タイマー
+    private float attackkingTimer_ = 0.0f;     //攻撃時間計測用タイマー
 
-    private CharacterState m_currentState = CharacterState.None;
-    private Rigidbody m_rb;
+    protected Vector3 moveDirction_ = Vector3.zero;    //移動方向ベクトル
+    protected CharacterType characterType_ = CharacterType.None; //キャラクタータイプ
+    private CharacterState currentState_ = CharacterState.None;
+    private Rigidbody rb_;
 
+    protected string myTag_ = "";                //自分のタグ
+    protected string targetTag_ = "";             //敵のタグ
+    protected int myLayer_ = 0;                  //自分のレイヤーID
+    protected int targetLayer_ = 0;               //敵のレイヤーID
 
-    private int m_playerUnitID = 0;             //プレイヤーユニットのレイヤーID
-    private int m_enemyUnitID = 0;              //エネミーユニットのレイヤーID
 
     //キャラ生産に必要なお金を取得
     public int GetNeedMoney()
     {
-       return m_needMoney;
+       return needMoney_;
+    }
+
+
+    public float GetSpawnInterval()
+    {
+        return spawnInterval_;
     }
 
 
 
-// Start is called before the first frame update
-void Start()
+    // Start is called before the first frame update
+    void Start()
     {
     }
 
@@ -83,34 +91,32 @@ void Start()
     /// </summary>
     private void OnValidate()
     {
-        m_attackCollider.radius = m_attackRange;
-        m_attackCollider.isTrigger = true;
-        m_bodyCollider.radius = m_bodyRange;
-        m_bodyCollider.isTrigger = true;
+        attackCollider_.radius = attackRange_;
+        bodyCollider_.radius = bodyRange_;
     }
 
 
     protected override void InitializeObject()
     {
-        m_rb = GetComponent<Rigidbody>();
+        rb_ = GetComponent<Rigidbody>();
         //重力無効化
-        m_rb.useGravity = false;
+        rb_.useGravity = false;
         //慣性挙動無効化
-        m_rb.isKinematic = true;
+        rb_.isKinematic = true;
 
-        //プレイヤーと敵のレイヤーのIDを取得
-        m_playerUnitID = LayerMask.NameToLayer("PlayerUnit");
-        m_enemyUnitID = LayerMask.NameToLayer("EnemyUnit");
+        //当たり判定をトリガーに設定
+        attackCollider_.isTrigger = true;
+        bodyCollider_.isTrigger = true;
 
         //タイマーをリセット
-        m_attackIntervalTimer = 0.0f;
-        m_attackkingTimer = 0.0f;
+        attackIntervalTimer_ = 0.0f;
+        attackkingTimer_ = 0.0f;
 
         //体力を最大体力に設定
-        m_health = m_maxHealth;
+        health_ = maxHealth_;
 
         //初期ステートを歩きステートに設定
-        m_currentState = CharacterState.Walk;
+        currentState_ = CharacterState.Walk;
         WalkStateEnter();
     }
 
@@ -124,7 +130,7 @@ void Start()
     //キャラクターのステートマシン
     private void CharacterStateMachine()
     {
-        switch (m_currentState)
+        switch (currentState_)
         {
             case CharacterState.Idle:
                 IdleStateUpdate();
@@ -151,7 +157,7 @@ void Start()
     //物理演算更新処理
     private void FixedUpdate()
     {
-        if (m_currentState == CharacterState.Walk)
+        if (currentState_ == CharacterState.Walk)
         {
             WalkStateUpdate();
             WalkChangeState();
@@ -165,7 +171,7 @@ void Start()
         Debug.Log("IdleStateEnter");
 
         //攻撃のインターバル管理用タイマーをリセット
-        m_attackIntervalTimer = 0.0f;
+        attackIntervalTimer_ = 0.0f;
     }
 
 
@@ -173,14 +179,14 @@ void Start()
     private void IdleStateUpdate()
     {
         //攻撃のインターバル管理
-        m_attackIntervalTimer += Time.deltaTime;
+        attackIntervalTimer_ += Time.deltaTime;
     }
 
 
     //アイドルステートの終了処理
     private void IdleStateExit()
     {
-        m_attackIntervalTimer = 0.0f;
+        attackIntervalTimer_ = 0.0f;
     }
 
 
@@ -190,16 +196,16 @@ void Start()
         if (JudgeDie())
         {
             IdleStateExit();
-            m_currentState = CharacterState.Die;
+            currentState_ = CharacterState.Die;
             DieStateEnter();
         }
 
 
         //敵を感知していなければ歩きステートへ
-        if (!m_isDetectingEnemy)
+        if (foundList_ == null)
         {
             IdleStateExit();
-            m_currentState = CharacterState.Walk;
+            currentState_ = CharacterState.Walk;
             WalkStateEnter();
             return;
         }
@@ -209,7 +215,7 @@ void Start()
         if (JudgeAttackIntervalComplete())
         {
             IdleStateExit();
-            m_currentState = CharacterState.Attack;
+            currentState_ = CharacterState.Attack;
             AttackStateEnter();
         }
         //攻撃インターバルが完了していなければ処理を抜ける
@@ -230,17 +236,17 @@ void Start()
     private void WalkStateUpdate()
     {
         //移動処理
-        m_rb.MovePosition(m_rb.position + m_moveDirction * m_moveSpeed * Time.fixedDeltaTime);
+        rb_.MovePosition(rb_.position + moveDirction_ * moveSpeed_ * Time.fixedDeltaTime);
 
         //攻撃のインターバル
-        m_attackIntervalTimer += Time.deltaTime;
+        attackIntervalTimer_ += Time.deltaTime;
     }
 
 
     //歩きステートの終了処理
     private void WalkStateExit()
     {
-        Debug.Log("FoundEnemy");
+        //Debug.Log("FoundEnemy");
     }
 
 
@@ -250,13 +256,13 @@ void Start()
         if (JudgeDie())
         {
             WalkStateExit();
-            m_currentState = CharacterState.Die;
+            currentState_ = CharacterState.Die;
             DieStateEnter();
         }
 
 
         //敵を感知していなければ処理を抜ける
-        if (!m_isDetectingEnemy)
+        if (foundList_ == null)
         {
             return;
         }
@@ -265,14 +271,14 @@ void Start()
         if (JudgeAttackIntervalComplete())
         {
             WalkStateExit();
-            m_currentState = CharacterState.Attack;
+            currentState_ = CharacterState.Attack;
             AttackStateEnter();
         }
         //攻撃インターバルが完了していなければ
         else
         {
             WalkStateExit();
-            m_currentState = CharacterState.Idle;
+            currentState_ = CharacterState.Idle;
             IdleStateEnter();
         }
     }
@@ -284,21 +290,22 @@ void Start()
         Debug.Log("AttackStateEnter");
 
         //攻撃発生タイマーをリセット
-        m_attackkingTimer = 0.0f;
+        attackkingTimer_ = 0.0f;
     }
 
 
     //攻撃ステートの更新処理
     private void AttackStateUpdate()
     {
-        m_attackkingTimer += Time.deltaTime;
+        attackkingTimer_ += Time.deltaTime;
     }
 
 
     //攻撃ステートの終了処理
     private void AttackStateExit()
     {
-        m_attackkingTimer = 0.0f;
+        //攻撃発生タイマーをリセット
+        attackkingTimer_ = 0.0f;
     }
 
 
@@ -308,7 +315,7 @@ void Start()
         if (JudgeDie())
         {
             AttackStateExit();
-            m_currentState = CharacterState.Die;
+            currentState_ = CharacterState.Die;
             DieStateEnter();
         }
 
@@ -321,23 +328,22 @@ void Start()
         ///////////
         //攻撃完了
         ///////////
-        
-        //タイマーをリセット
-        m_attackkingTimer = 0.0f;
 
-        
-        //敵を感知していればアイドルステートへ
-        if (m_isDetectingEnemy)
+        Attack();
+        attackkingTimer_ = 0.0f;
+
+        //敵を見つけていればアイドルステートへ
+        if (foundList_ != null)
         {
             AttackStateExit();
-            m_currentState = CharacterState.Idle;
+            currentState_ = CharacterState.Idle;
             IdleStateEnter();
         }
-        //敵を感知していなければ歩きステートへ
+        //敵を見つけていなければ歩きステートへ
         else
         {
             AttackStateExit();
-            m_currentState = CharacterState.Walk;
+            currentState_ = CharacterState.Walk;
             WalkStateEnter();
         }
     }
@@ -372,38 +378,43 @@ void Start()
 
 
 
-    //当たり判定に敵が滞在しているときの処理
-    private void OnTriggerStay(Collider other)
+    //当たり判定に敵が入ったときの処理
+    private void OnTriggerEnter(Collider other)
     {
-        //感知したオブジェクトがプレイヤーか敵でなければ処理を抜ける
-        if (other.gameObject.layer != m_playerUnitID && 
-            other.gameObject.layer != m_enemyUnitID)
+        int layer = other.gameObject.layer;
+        if (layer != myLayer_ && layer != targetLayer_)
         {
             return;
         }
 
-        m_isDetectingEnemy = true;
-    }
+        Debug.Log("FoundEnemy");
 
+        foundList_.Add(attackCollider_);
+    }
 
     //当たり判定から敵が出たときの処理
     private void OnTriggerExit(Collider other)
     {
         //感知したオブジェクトがプレイヤーか敵でなければ処理を抜ける
-        if (other.gameObject.layer != m_playerUnitID &&
-            other.gameObject.layer != m_enemyUnitID)
+        if (other.gameObject.layer != myLayer_ &&
+            other.gameObject.layer != targetLayer_)
         {
             return;
         }
 
-        m_isDetectingEnemy = false;
+        foundList_.Remove(other);
+        if (foundList_.Count <= 0)
+        {
+            foundList_.Clear();
+            foundList_ = null;            
+        }
     }
 
 
     //攻撃インターバルが完了したかどうかを判定
     private bool JudgeAttackIntervalComplete()
     {
-        if (m_attackIntervalTimer >= m_attackInterval)
+        if (attackIntervalTimer_ >= attackInterval_)
         {
             return true;
         }
@@ -414,7 +425,7 @@ void Start()
     //攻撃が完了したかどうかを判定
     private bool JudgeAttackComplete()
     {
-        if (m_attackkingTimer >= m_attackkingTime)
+        if (attackkingTimer_ >= attackkingTime_)
         {
             return true;
         }
@@ -425,19 +436,104 @@ void Start()
     //死んでいるかどうかを判定
     private bool JudgeDie()
     {
-        if (m_health <= 0.0f)
+        if (health_ <= 0)
         {
-            m_health = 0.0f;
+            health_ = 0;
             return true;
         }
         return false;
     }
 
 
-
     //攻撃処理
     private void Attack()
     {
+        //攻撃を実行する
+        switch (attackType_)
+        {
+            case AttackType.Single:
+                SingleAttack();
+                break;
+            case AttackType.Range:
+                RangeAttack();
+                break;
+            default:
+                Debug.LogError("不正な攻撃タイプです");
+                break;
+        }
+    }
+
+
+
+    //範囲攻撃処理
+    private void RangeAttack()
+    {
+        
         //攻撃処理
+        Debug.Log("Attack!");
+
+        //攻撃範囲内の攻撃対象を取得
+        Collider[] targets = Physics.OverlapSphere(
+            transform.position
+            , attackRange_
+            , LayerMask.GetMask(targetTag_)
+        );
+
+
+        //攻撃対象のタグを設定
+        foreach (var target in targets)
+        {
+            if (target.CompareTag(targetTag_))
+            {
+                //攻撃対象にダメージを与える
+                Debug.Log("Attack Target:" + target.name);
+                CharacterBaseScript targetCharacter = target.GetComponent<CharacterBaseScript>();
+                targetCharacter.ReceiveDamage((int)attackPower_);
+            }
+        }
+    }
+
+
+
+    //単体攻撃処理
+    private void SingleAttack()
+    {
+        //攻撃処理
+        Debug.Log("Single Attack!");
+
+        //最も近い攻撃対象を取得するための変数
+        float lengthMin = float.MaxValue;
+
+        //攻撃対象にダメージを与える
+        foreach (var target in foundList_)
+        {
+            //攻撃対象の方向ベクトルを取得
+            Vector3 dir = target.transform.position - transform.position;
+            //攻撃対象までの距離を取得
+            float length = dir.magnitude;
+            //取得した距離が最小距離よりも小さければ攻撃対象を更新
+            if (lengthMin > length)
+            {
+                lengthMin = length;
+            }
+        }
+
+
+        foreach (var target in foundList_)
+        {
+            //攻撃対象の方向ベクトルを取得
+            Vector3 dir = target.transform.position - transform.position;
+            //攻撃対象までの距離を取得
+            float length = dir.magnitude;
+
+
+            //取得した距離が最小距離と同じであれば攻撃対象にダメージを与える
+            if (lengthMin == length)
+            {
+                Debug.Log("Attack Target:" + target.name);
+                CharacterBaseScript targetCharacter = target.GetComponent<CharacterBaseScript>();
+                targetCharacter.ReceiveDamage((int)attackPower_);
+            }
+        }
     }
 }
