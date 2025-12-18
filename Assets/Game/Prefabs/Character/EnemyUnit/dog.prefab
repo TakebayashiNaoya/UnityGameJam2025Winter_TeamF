@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5931490161449319534}
   - component: {fileID: 5924024249098648523}
   - component: {fileID: 2684568431941898825}
+  - component: {fileID: 8142759452780127586}
   - component: {fileID: 1237385766540738369}
-  m_Layer: 0
-  m_Name: Enemy
+  m_Layer: 7
+  m_Name: dog
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,11 +30,10 @@ Transform:
   m_GameObject: {fileID: 3132432477350855286}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3415972206590175429}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5931490161449319534
@@ -100,18 +100,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3b0a67190220c41a5bd21b46632018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_needMoney: 0
-  m_health: 20
-  m_moveSpeed: 2
-  m_attackPower: 1
-  m_attackRange: 3
-  m_bodyRange: 0.36
-  m_spawnInterval: 3
-  m_attackInterval: 2
-  m_attackkingTime: 0
-  m_attackCollider: {fileID: 2684568431941898825}
-  m_bodyCollider: {fileID: 8130215571516583056}
-  m_characterType: 2
+  maxHealth_: 90
+  bodyCollider_: {fileID: 2684568431941898825}
+  charaCost_: 15
+  moveSpeed_: 5
+  attackPower_: 8
+  attackRange_: 1.1
+  bodyRange_: 0.4
+  spawnInterval_: 0
+  attackInterval_: 1.57
+  attackkingTime_: 0.27
+  attackCollider_: {fileID: 8142759452780127586}
+  attackType_: 1
 --- !u!135 &2684568431941898825
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -131,7 +131,28 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3
+  m_Radius: 0.4
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &8142759452780127586
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3132432477350855286}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1237385766540738369
 Rigidbody:
@@ -160,56 +181,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &5847412859853873908
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3415972206590175429}
-  - component: {fileID: 8130215571516583056}
-  m_Layer: 7
-  m_Name: BodyCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3415972206590175429
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847412859853873908}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3066005260453790349}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8130215571516583056
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5847412859853873908}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.36
-  m_Center: {x: 0, y: 0, z: 0}
