@@ -1,33 +1,42 @@
 ﻿///
 ///キャラスポーンボタンクラス
 ///
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpawnButtonScript : MonoBehaviour
 {
     // ゲームオブジェクトのプレイヤーを登録する
-    [SerializeField] private GameObject PlayerObject;
+    [SerializeField] private GameObject playerObject_;
 
     // PlayerObjectにアタッチされたスクリプトを保持する
-    private CharacterBaseScript characterBaseScript;
+    private CharacterBaseScript characterBaseScript_;
 
     // ゲームオブジェクトのMoneyManagerを登録する
-    [SerializeField] private GameObject MoneyManager;
+    [SerializeField] private GameObject moneyManager_;
 
     // MoneyManagerにアタッチされたスクリプトを保持する
-    private MoneyScript moneyScript;
+    private MoneyScript moneyScript_;
 
     // ボタン
-    private Button spawnButton;
+    private Button spawnButton_;
 
-    // キャラのスポーンにかかるコスト
-    [SerializeField] private int SpawnCost;
+    [Header("スポーンSE"), SerializeField] private AudioClip spawnSe_;
+
+    // コスト用テキスト
+    public TextMeshProUGUI costText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        characterBaseScript_ = playerObject_.GetComponent<CharacterBaseScript>();
+
+        moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
+
+        spawnButton_ = GetComponent<Button>();
+
+        spawnButton_.onClick.AddListener(Spawn);
     }
 
     /// <summary>
@@ -35,27 +44,41 @@ public class SpawnButtonScript : MonoBehaviour
     /// </summary>
     void Update()
     {
-        characterBaseScript = PlayerObject.GetComponent<CharacterBaseScript>();
 
-        moneyScript = MoneyManager.GetComponent<MoneyScript>();
-
-        spawnButton = GetComponent<Button>();
+        // コストテキストの表示
+        costText.text = "Cost : " + characterBaseScript_.GetNeedMoney().ToString();
 
         // コストよりも現在のお金があるのなら
-        if (moneyScript._currentMoney > characterBaseScript.GetNeedMoney())
+        if (moneyScript_.currentMoney > characterBaseScript_.GetNeedMoney())
         {
-            moneyScript.CanSpawn = true;
-
-            spawnButton.onClick.AddListener(() =>
-            {
-                moneyScript.Spawn(characterBaseScript.GetNeedMoney());
-
-            });
+            GetComponent<Image>().color = new Color(255.0f, 244.0f, 0.0f, 255.0f);
+            moneyScript_.canSpawn = true;
         }
 
         else
         {
-            moneyScript.CanSpawn = false;
+            GetComponent<Image>().color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
+            moneyScript_.canSpawn = false;
+        }
+    }
+
+    void Spawn()
+    {
+
+        //お金の最終チェック
+        int cost = characterBaseScript_.GetNeedMoney();
+
+        if (moneyScript_.currentMoney >= cost)
+        {
+            //お金を消費してスポーンさせる
+            moneyScript_.Spawn(cost);
+
+            //SpawnManagerに生成を依頼する
+            if(SpawnManager.instance != null)
+            {
+                SpawnManager.instance.SpawnRequest(playerObject_);
+                SoundManager.instance.PlaySe(spawnSe_);
+            }
         }
     }
 }

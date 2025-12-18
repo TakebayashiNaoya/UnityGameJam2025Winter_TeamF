@@ -1,4 +1,5 @@
-﻿///
+﻿
+///
 /// お金管理
 ///
 using UnityEngine;
@@ -7,39 +8,39 @@ using TMPro;
 public class MoneyScript : MonoBehaviour
 {
     // 現在のお金
-    public int _currentMoney { get; private set; }
+    public int currentMoney { get; private set; }
 
     // お金レベル
-    public int MoneyLevel { get; private set; }
+    public int moneyLevel { get; private set; }
 
     // お金レベルの上限
-    private int _maxMoneyLevel = 7;
+    private int maxMoneyLevel_ = 7;
 
     [Header("増えるお金の量"), SerializeField]
-    private int[] _addAmountOfChanges;
+    private int[] addAmountOfChanges_;
 
     [Header("お金の上限"), SerializeField]
-    private int[] _maxMoneys;
+    private int[] maxMoneys_;
 
     [Header("レベルアップに必要な金額"), SerializeField]
-    private int[] _levelUpCosts;
+    private int[] levelUpCosts_;
 
     // 時間
-    private float _timer = 0f;
+    private float timer_ = 0f;
 
     // レベルアップ可能かどうかのフラグ
-    public bool CanLevelUP = false;
+    public bool canLevelUP = false;
 
     // キャラがスポーン可能かどうかのフラグ
-    public bool CanSpawn = false;
+    public bool canSpawn = false;
 
-    public TextMeshProUGUI MoneyLevelText;
+    public TextMeshProUGUI moneyLevelText;
 
-    public TextMeshProUGUI CurrentMoneyText;
+    public TextMeshProUGUI currentMoneyText;
 
-    public TextMeshProUGUI LevelUpCostText;
+    public TextMeshProUGUI levelUpCostText;
 
-    [Header("レベルアップSE"), SerializeField] private AudioClip LevelUpSE;
+    [Header("レベルアップSE"), SerializeField] private AudioClip levelUpSe_;
 
     /// <summary>
     /// 毎フレーム更新
@@ -48,79 +49,79 @@ public class MoneyScript : MonoBehaviour
     {
 
         // 今持ってるお金が上限より多かったら
-        if (_maxMoneys[MoneyLevel] <= _currentMoney)
+        if (maxMoneys_[moneyLevel] <= currentMoney)
         {
             // 上限で止める
-            _currentMoney = _maxMoneys[MoneyLevel];
+            currentMoney = maxMoneys_[moneyLevel];
         }
 
         // 今のお金のレベルが上限なら
-        if (_maxMoneyLevel <= MoneyLevel)
+        if (maxMoneyLevel_ <= moneyLevel)
         {
             // 上限で止める
-            MoneyLevel = _maxMoneyLevel;
+            moneyLevel = maxMoneyLevel_;
         }
 
         // お金レベルが上限よりも下だった場合
-        if (MoneyLevel < _maxMoneyLevel)
+        if (moneyLevel < maxMoneyLevel_)
         {
             // お金のレベルアップに必要なお金以上にお金があった時かつ、レベルアップのフラグが立った時
             // if (_levelUpCosts[MoneyLevel] < _currentMoney && CanLevelUP)
 
             // レベルアップに必要な金額が貯まっている時
-            if (_currentMoney > _levelUpCosts[MoneyLevel])
+            if (currentMoney > levelUpCosts_[moneyLevel])
             {
-                CanLevelUP = true;
+                canLevelUP = true;
             }
 
             else
             {
-                CanLevelUP = false;
+                canLevelUP = false;
             }
         }
 
         // 現在のお金の文字表示
-        CurrentMoneyText.text = _currentMoney.ToString() + " / " + _maxMoneys[MoneyLevel].ToString();
+        currentMoneyText.text = currentMoney.ToString() + " / " + maxMoneys_[moneyLevel].ToString();
 
-        if (MoneyLevel < _maxMoneyLevel)
+        if (moneyLevel < maxMoneyLevel_)
         {
             // レベルアップに必要なお金の文字表示
-            LevelUpCostText.text = "LevelUpCost : " + _levelUpCosts[MoneyLevel].ToString();
+            levelUpCostText.text = "LevelUpCost : " + levelUpCosts_[moneyLevel].ToString();
 
             // お金レベルの文字表示
-            MoneyLevelText.text = "Level " + MoneyLevel;
+            moneyLevelText.text = "Level " + moneyLevel;
         }
 
         // もしお金のレベルがMaxなら
         else
         {
             // コストの文字を無にする
-            LevelUpCostText.text = "LevelUpCost :";
+            levelUpCostText.text = "LevelUpCost :";
 
             // レベルをMaxと表示する
-            MoneyLevelText.text = "Level Max";
+            moneyLevelText.text = "Level Max";
         }
 
         // ここから下でお金を増やしてる
-        _timer += Time.deltaTime;
+        timer_ += Time.deltaTime;
 
-        if (_timer >= 1.0f)
+        if (timer_ >= 1.0f)
         {
-            _currentMoney += _addAmountOfChanges[MoneyLevel];
-            _timer = 0.0f;
+            currentMoney += addAmountOfChanges_[moneyLevel];
+            timer_ = 0.0f;
         }
 
-        Debug.Log("現在のお金:" + _currentMoney);
+        Debug.Log("現在のお金:" + currentMoney);
     }
 
     public void LevelUp()
     {
-        if (CanLevelUP)
+        if (canLevelUP)
         {
-            _currentMoney -= _levelUpCosts[MoneyLevel];
-            MoneyLevel++;
-            CanLevelUP = false;
-            SoundManager.instance.PlaySe(LevelUpSE);
+            currentMoney -= levelUpCosts_[moneyLevel];
+            moneyLevel++;
+            canLevelUP = false;
+            SoundManager.instance.PlaySe(levelUpSe_);
         }
         
     }
@@ -128,10 +129,10 @@ public class MoneyScript : MonoBehaviour
 
     public void Spawn(int cost)
     {
-        if (CanSpawn)
+        if (canSpawn)
         {
-            _currentMoney -= cost;
-            CanSpawn = false;
+            currentMoney -= cost;
+            canSpawn = false;
         }
         
     }

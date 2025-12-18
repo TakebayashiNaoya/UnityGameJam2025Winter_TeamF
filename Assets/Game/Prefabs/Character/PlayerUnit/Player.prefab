@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 1826673016166203971}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,19 +153,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2931607a15a46f243869482a9fe0124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  needMoney_: 0
-  maxHealth_: 0
-  moveSpeed_: 0
-  attackPower_: 0
-  attackRange_: 0
-  bodyRange_: 0
-  pawnInterval_: 0
-  attackInterval_: 0
-  attackkingTime_: 0
-  attackCollider_: {fileID: 0}
-  bodyCollider_: {fileID: 7694416582528201936}
-  attackType_: 0
-  showLogFlags_: 0000000000
+
+  m_needMoney: 50
+  m_health: 20
+  m_moveSpeed: 1
+  m_attackPower: 2
+  m_attackRange: 1
+  m_bodyRange: 0.4
+  m_spawnInterval: 2
+  m_attackInterval: 2
+  m_attackkingTime: 0
+  m_attackCollider: {fileID: 2993872693302880066}
+  m_bodyCollider: {fileID: 7694416582528201936}
+  m_characterType: 1
+  
 --- !u!135 &2993872693302880066
 SphereCollider:
   m_ObjectHideFlags: 0
