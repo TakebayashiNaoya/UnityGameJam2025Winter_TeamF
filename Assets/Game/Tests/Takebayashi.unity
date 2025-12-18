@@ -330,6 +330,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6010347561961326149, guid: 23cd676ecb9f5f640b7b730595d7b423, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8459c252ea3c47140ab93aa1d8804384, type: 3}
     - target: {fileID: 6858449010008094062, guid: 23cd676ecb9f5f640b7b730595d7b423, type: 3}
       propertyPath: m_Name
       value: EnemySpawner
@@ -391,6 +395,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7766047561516423896, guid: aaaa9c9ecac121f4db3fccfbfaac55df, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 781dab61e84e3e641813a11017846acb, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
