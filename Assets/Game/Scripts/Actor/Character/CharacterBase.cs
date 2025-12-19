@@ -45,7 +45,7 @@ public class CharacterBase : Actor
     [Header("攻撃タイプ"),          SerializeField] private AttackType attackType_;
     
 
-    private List<CharacterBase> foundList_ = new List<CharacterBase>(); //感知した敵のリスト
+    private List<Actor> foundList_ = new List<Actor>(); //感知した敵のリスト
 
     private float attackIntervalTimer_ = 0.0f; //待機時間計測用タイマー
     private float attackkingTimer_ = 0.0f;     //攻撃時間計測用タイマー
