@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Building
+    uniqueID: 4238146685
+    locked: 0
+  - name: Character
+    uniqueID: 85913449
+    locked: 0
