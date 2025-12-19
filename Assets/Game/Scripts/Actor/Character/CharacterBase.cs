@@ -471,7 +471,6 @@ public class CharacterBase : Actor
     {
         if (health_ <= 0)
         {
-            health_ = 0;
             return true;
         }
         return false;
