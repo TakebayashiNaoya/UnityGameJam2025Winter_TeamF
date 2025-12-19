@@ -22,9 +22,15 @@ public abstract class Actor : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 派生先でオブジェクトの初期化処理を行う
+    /// </summary>
     protected abstract void InitializeObject();
 
 
+    /// <summary>
+    /// 派生先でオブジェクトの更新処理を行う
+    /// </summary>
     protected abstract void UpdateObject();
 
 
@@ -33,6 +39,6 @@ public abstract class Actor : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         health_ -= damage;
-        Debug.Log("Damage:" + damage);
+        //Debug.Log("Damage:" + damage);
     }
 }
