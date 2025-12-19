@@ -2,6 +2,7 @@
 ///キャラスポーンボタンクラス
 ///
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,6 +54,9 @@ public class SpawnButtonScript : MonoBehaviour
 
         respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
 
+        // 最初はゲージを非表示にする
+        respawnGaugeSlider_.gameObject.SetActive(false);
+
     }
 
     /// <summary>
@@ -101,6 +105,9 @@ public class SpawnButtonScript : MonoBehaviour
                 // リスポーン可能にする
                 canReSpawn = true;
 
+                // ゲージを表示する
+                respawnGaugeSlider_.gameObject.SetActive(true);
+
                 //リスポーン関係の情報を一度初期化する
                 elapsedTime = 0.0f;
                 respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
@@ -135,6 +142,9 @@ public class SpawnButtonScript : MonoBehaviour
                 canReSpawn = false;
 
                 moneyScript_.canSpawn = true;
+
+                // ゲージを非表示にする
+                respawnGaugeSlider_.gameObject.SetActive(false);
             }
 
         }
