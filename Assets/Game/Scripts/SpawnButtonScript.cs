@@ -30,9 +30,6 @@ public class SpawnButtonScript : MonoBehaviour
 
     [Header("リスポーン用のゲージ"), SerializeField] private Slider respawnGaugeSlider_;
 
-    // リスポーンタイマー
-    private float reSpawnTimer_ = 0.0f;
-
     // リスポーン可能かどうかのフラグ
     private bool canReSpawn = false;
 
@@ -49,8 +46,6 @@ public class SpawnButtonScript : MonoBehaviour
         spawnButton_ = GetComponent<Button>();
 
         spawnButton_.onClick.AddListener(Spawn);
-
-        reSpawnTimer_ = characterBaseScript_.GetSpawnInterval();
 
         respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
 
