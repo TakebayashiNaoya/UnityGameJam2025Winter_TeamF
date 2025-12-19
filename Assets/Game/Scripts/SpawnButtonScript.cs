@@ -35,6 +35,9 @@ public class SpawnButtonScript : MonoBehaviour
     // リスポーン可能かどうかのフラグ
     private bool canReSpawn = false;
 
+    // 経過時間を設定
+    private float elapsedTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +50,9 @@ public class SpawnButtonScript : MonoBehaviour
         spawnButton_.onClick.AddListener(Spawn);
 
         reSpawnTimer_ = characterBaseScript_.GetSpawnInterval();
+
+        respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
+
     }
 
     /// <summary>
@@ -94,6 +100,13 @@ public class SpawnButtonScript : MonoBehaviour
 
                 // リスポーン可能にする
                 canReSpawn = true;
+
+                //リスポーン関係の情報を一度初期化する
+                elapsedTime = 0.0f;
+                respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
+                respawnGaugeSlider_.value = 0.0f;
+                moneyScript_.canSpawn = false;
+
             }
         }
     }
@@ -103,29 +116,27 @@ public class SpawnButtonScript : MonoBehaviour
         // もしリスポーン可能なら
         if (canReSpawn)
         {
-            // 経過時間を計算
-            float elapsed = characterBaseScript_.GetSpawnInterval() - reSpawnTimer_;
+            // 経過時間を加算していく
+            elapsedTime += Time.deltaTime;
 
-            // リスポーンゲージを変化させる
-            reSpawnTimer_ -= Time.deltaTime;
+            // ゲージを更新する
+            respawnGaugeSlider_.value = elapsedTime;
 
-            // リスポーンゲージの現在値を設定
-            respawnGaugeSlider_.value = elapsed;
+            // 経過時間がリスポーン時間を超えたら
+            if (elapsedTime >= characterBaseScript_.GetSpawnInterval())
+            {
+                // リスポーン関連の情報を初期化する
+                respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
 
-            moneyScript_.canSpawn = false;
-        }
+                // ゲージを満タンにする
+                respawnGaugeSlider_.value = respawnGaugeSlider_.maxValue;
 
-        // リスポーンタイマーが0以下になったら
-        if (reSpawnTimer_ <= 0.0f)
-        {
-            // リスポーンゲージをリセット
-            reSpawnTimer_ = characterBaseScript_.GetSpawnInterval();
-            respawnGaugeSlider_.value = reSpawnTimer_;
+                // リスポーンのフラグを折る
+                canReSpawn = false;
 
-            // リスポーンのフラグを折る
-            canReSpawn = false;
+                moneyScript_.canSpawn = true;
+            }
 
-            moneyScript_.canSpawn = true;
         }
     }
 
