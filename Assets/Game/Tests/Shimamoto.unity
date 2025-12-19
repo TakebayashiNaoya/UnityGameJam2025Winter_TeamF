@@ -1138,11 +1138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -349
+      value: -348.2
       objectReference: {fileID: 0}
     - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -328.47125
+      value: -375.7
       objectReference: {fileID: 0}
     - target: {fileID: 8308674455317697237, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: LevelUpSE
