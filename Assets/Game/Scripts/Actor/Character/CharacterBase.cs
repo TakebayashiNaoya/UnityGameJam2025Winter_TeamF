@@ -401,7 +401,7 @@ public class CharacterBase : Actor
     private void OnTriggerEnter(Collider other)
     {
         //ターゲットのCharacterBaseコンポーネントを取得
-        CharacterBase target = other.GetComponent<CharacterBase>();
+        Actor target = other.GetComponent<Actor>();
 
         //targetがnull参照なら処理を抜ける
         if (target == null)
@@ -428,7 +428,7 @@ public class CharacterBase : Actor
     private void OnTriggerExit(Collider other)
     {
         //ターゲットのCharacterBaseコンポーネントを取得
-        CharacterBase target = other.GetComponent<CharacterBase>();
+        Actor target = other.GetComponent<Actor>();
 
         //targetがnull参照なら処理を抜ける
         if (target == null)
@@ -520,7 +520,7 @@ public class CharacterBase : Actor
             {
                 //攻撃対象にダメージを与える
                 //Debug.Log("Attack Target:" + target.name);
-                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
+                Actor targetCharacter = target.GetComponent<Actor>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }
@@ -564,7 +564,7 @@ public class CharacterBase : Actor
             if (lengthMin == length)
             {
                 //Debug.Log("Attack Target:" + target.name);
-                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
+                Actor targetCharacter = target.GetComponent<Actor>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }
