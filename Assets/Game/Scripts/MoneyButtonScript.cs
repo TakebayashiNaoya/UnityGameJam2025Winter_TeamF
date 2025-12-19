@@ -1,8 +1,6 @@
 ﻿//
 //お金のボタンを管理するクラス
 //
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,15 +30,17 @@ public class MoneyButtonScript : MonoBehaviour
     {
         // Imageコンポーネントを取得
         image_ = GetComponent<Image>();
+
+        moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
+
+        moneyButton = GetComponent<Button>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
-
-        moneyButton = GetComponent<Button>();
+       
 
         moneyButton.onClick.AddListener(() =>
         {
