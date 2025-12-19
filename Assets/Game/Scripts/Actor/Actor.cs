@@ -39,6 +39,11 @@ public abstract class Actor : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         health_ -= damage;
+        //体力が0以下になったら0にする
+        if (health_ <= 0)
+        {
+            health_ = 0;
+        }
         //Debug.Log("Damage:" + damage);
     }
 }
