@@ -68,6 +68,7 @@ public class CharacterBase : Actor
         //null参照を削除
         foundList_.RemoveAll(target => target == null);
 
+        //感知した敵がいなければフラグをfalseに設定
         if (foundList_.Count == 0)
         {
             isFind_ = false;
@@ -182,7 +183,7 @@ public class CharacterBase : Actor
     //アイドルステートの初期化処理
     private void IdleStateEnter()
     {
-        Debug.Log("IdleStateEnter");
+        //Debug.Log("IdleStateEnter");
 
         //攻撃のインターバル管理用タイマーをリセット
         attackIntervalTimer_ = 0.0f;
@@ -212,6 +213,7 @@ public class CharacterBase : Actor
             IdleStateExit();
             currentState_ = CharacterState.Die;
             DieStateEnter();
+            return;
         }
 
 
@@ -242,7 +244,7 @@ public class CharacterBase : Actor
     //歩きステートの初期化処理
     private void WalkStateEnter()
     {
-        Debug.Log("WalkStateEnter");
+        //Debug.Log("WalkStateEnter");
     }
 
 
@@ -272,6 +274,7 @@ public class CharacterBase : Actor
             WalkStateExit();
             currentState_ = CharacterState.Die;
             DieStateEnter();
+            return;
         }
 
 
@@ -301,7 +304,7 @@ public class CharacterBase : Actor
     //攻撃ステートの初期化処理
     private void AttackStateEnter()
     {
-        Debug.Log("AttackStateEnter");
+        //Debug.Log("AttackStateEnter");
 
         //攻撃発生タイマーをリセット
         attackkingTimer_ = 0.0f;
@@ -331,6 +334,7 @@ public class CharacterBase : Actor
             AttackStateExit();
             currentState_ = CharacterState.Die;
             DieStateEnter();
+            return;
         }
 
         //攻撃が完了していなければ処理を抜ける
@@ -366,7 +370,7 @@ public class CharacterBase : Actor
     //死亡ステートの初期化処理
     private void DieStateEnter()
     {
-        Debug.Log("DieStateEnter");
+        //Debug.Log("DieStateEnter");
     }
 
 
@@ -380,6 +384,7 @@ public class CharacterBase : Actor
     //死亡ステートの終了処理
     private void DieStateExit()
     {
+        //自身を削除
         Destroy(this.gameObject);
     }
 
@@ -395,6 +400,7 @@ public class CharacterBase : Actor
     //当たり判定に敵が入ったときの処理
     private void OnTriggerEnter(Collider other)
     {
+        //ターゲットのCharacterBaseコンポーネントを取得
         CharacterBase target = other.GetComponent<CharacterBase>();
 
         //targetがnull参照なら処理を抜ける
@@ -408,6 +414,7 @@ public class CharacterBase : Actor
             return;
         }
 
+        //未登録ならリストに追加
         if (!foundList_.Contains(target))
         {
             foundList_.Add(target);
@@ -420,13 +427,16 @@ public class CharacterBase : Actor
     //当たり判定から敵が出たときの処理
     private void OnTriggerExit(Collider other)
     {
+        //ターゲットのCharacterBaseコンポーネントを取得
         CharacterBase target = other.GetComponent<CharacterBase>();
 
+        //targetがnull参照なら処理を抜ける
         if (target == null)
         {
             return;
         }
 
+        //ターゲットが登録されていたらリストから削除
         if (foundList_.Contains(target))
         {
             foundList_.Remove(target);
@@ -471,7 +481,7 @@ public class CharacterBase : Actor
     //攻撃処理
     private void Attack()
     {
-        //攻撃を実行する
+        //攻撃タイプによって処理を分岐
         switch (attackType_)
         {
             case AttackType.Single:
@@ -509,7 +519,7 @@ public class CharacterBase : Actor
             if (target.CompareTag(targetTag_))
             {
                 //攻撃対象にダメージを与える
-                Debug.Log("Attack Target:" + target.name);
+                //Debug.Log("Attack Target:" + target.name);
                 CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
@@ -553,7 +563,7 @@ public class CharacterBase : Actor
             //取得した距離が最小距離と同じであれば攻撃対象にダメージを与える
             if (lengthMin == length)
             {
-                Debug.Log("Attack Target:" + target.name);
+                //Debug.Log("Attack Target:" + target.name);
                 CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
