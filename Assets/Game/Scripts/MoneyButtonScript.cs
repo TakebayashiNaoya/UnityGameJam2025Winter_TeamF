@@ -32,6 +32,17 @@ public class MoneyButtonScript : MonoBehaviour
     {
         // Imageコンポーネントを取得
         image_ = GetComponent<Image>();
+
+        moneyButton = GetComponent<Button>(); // ここで取得
+
+        moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
+
+        // クリック処理の登録は Start で一度だけ行う
+        moneyButton.onClick.AddListener(() =>
+        {
+            moneyScript_.LevelUp();
+            image_.sprite = currentSprite;
+        });
     }
 
     // Update is called once per frame
@@ -39,18 +50,18 @@ public class MoneyButtonScript : MonoBehaviour
     {
         moneyScript_ = moneyManager_.GetComponent<MoneyScript>();
 
-        moneyButton = GetComponent<Button>();
+        //moneyButton = GetComponent<Button>();
 
-        moneyButton.onClick.AddListener(() =>
-        {
-            moneyScript_.LevelUp();
+        //moneyButton.onClick.AddListener(() =>
+        //{
+        //    moneyScript_.LevelUp();
 
-            // レベルアップしたら画像を元に戻す
-            image_.sprite = currentSprite;
-        });
+        //    // レベルアップしたら画像を元に戻す
+        //    image_.sprite = currentSprite;
+        //});
 
         // もしレベルアップ可能だったら
-        if(moneyScript_.canLevelUP)
+        if (moneyScript_.canLevelUP)
         {
             // レベルアップ可能用の画像にする
             image_.sprite = canLevelUpSprite;
