@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//
+//アクタークラス
+//
 using UnityEngine;
 
-public abstract class ActorScript : MonoBehaviour
+public abstract class Actor : MonoBehaviour
 {
-    [Header("最大体力"), SerializeField] protected int maxHealth_;
+    [Header("最大体力"),         SerializeField] protected int maxHealth_;
     [Header("自身の当たり判定"), SerializeField] protected SphereCollider bodyCollider_;
 
 
@@ -21,9 +22,15 @@ public abstract class ActorScript : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 派生先でオブジェクトの初期化処理を行う
+    /// </summary>
     protected abstract void InitializeObject();
 
 
+    /// <summary>
+    /// 派生先でオブジェクトの更新処理を行う
+    /// </summary>
     protected abstract void UpdateObject();
 
 
@@ -32,6 +39,6 @@ public abstract class ActorScript : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         health_ -= damage;
-        Debug.Log("Damage:" + damage);
+        //Debug.Log("Damage:" + damage);
     }
 }

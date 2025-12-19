@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//
+//敵キャラクターのクラス
+//
 using UnityEngine;
 
-public class EnemyUnit : CharacterBaseScript
+public class EnemyUnit : CharacterBase
 {
     // Start is called before the first frame update
     void Start()
@@ -15,9 +16,7 @@ public class EnemyUnit : CharacterBaseScript
         targetLayer_ = LayerMask.NameToLayer("PlayerUnit");
 
         moveDirction_ = Vector3.right;
-        InitializeObject();
-
-        
+        InitializeObject();        
     }
 
     // Update is called once per frame
