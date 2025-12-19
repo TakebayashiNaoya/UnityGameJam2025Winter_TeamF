@@ -27,6 +27,10 @@ public class SpawnButtonScript : MonoBehaviour
     // コスト用テキスト
     public TextMeshProUGUI costText;
 
+    [Header("リスポーン用のゲージ"), SerializeField] private Slider respawnGaugeSlider_;
+
+    private float reSpawnTimer_ = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,7 +82,37 @@ public class SpawnButtonScript : MonoBehaviour
             {
                 SpawnManager.instance.SpawnRequest(playerObject_);
                 SoundManager.instance.PlaySe(spawnSe_);
+
+                // リスポーン処理を呼び出す
+                ReSpawn();
             }
         }
     }
+
+    void ReSpawn()
+    {
+        // もしリスポーンタイマーが0以上なら
+        if (reSpawnTimer_ >= 0)
+        {
+            // リスポーンゲージの最大値を設定
+            respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
+
+            // リスポーンゲージを変化させる
+            reSpawnTimer_ = characterBaseScript_.GetSpawnInterval() - Time.deltaTime;
+
+            // リスポーンゲージの現在値を設定
+            respawnGaugeSlider_.value = reSpawnTimer_;
+
+            moneyScript_.canSpawn = false;
+        }
+
+        else
+        {
+            // リスポーンゲージをリセット
+            respawnGaugeSlider_.value = 1.0f;
+
+            moneyScript_.canSpawn = true;
+        }
+    }
+
 }
