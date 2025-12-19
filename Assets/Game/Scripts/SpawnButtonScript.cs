@@ -44,9 +44,11 @@ public class SpawnButtonScript : MonoBehaviour
     /// </summary>
     void Update()
     {
-
-        // コストテキストの表示
-        costText.text = "Cost : " + characterBaseScript_.GetNeedMoney().ToString();
+        if (costText != null)
+        {
+            // コストテキストの表示
+            costText.text = "Cost : " + characterBaseScript_.GetNeedMoney().ToString();
+        }
 
         // コストよりも現在のお金があるのなら
         if (moneyScript_.currentMoney > characterBaseScript_.GetNeedMoney())
@@ -74,7 +76,7 @@ public class SpawnButtonScript : MonoBehaviour
             moneyScript_.Spawn(cost);
 
             //SpawnManagerに生成を依頼する
-            if(SpawnManager.instance != null)
+            if (SpawnManager.instance != null)
             {
                 SpawnManager.instance.SpawnRequest(playerObject_);
                 SoundManager.instance.PlaySe(spawnSe_);
