@@ -11,7 +11,7 @@ using System.Collections.Generic;
 public class MoneyScript : MonoBehaviour
 {
     // 現在のお金
-    public int currentMoney { get; private set; }
+    public float currentMoney { get; private set; }
 
     // お金レベル
     public int moneyLevel { get; private set; }
@@ -20,8 +20,8 @@ public class MoneyScript : MonoBehaviour
     private int maxMoneyLevel_ = 7;
 
     // お金の変化量
-    private static readonly int[] addAmountOfChanges_ = { 185, 193, 203, 212, 222, 231, 241, 250 };
-    public static IReadOnlyList<int> AddAmountOfChanges => addAmountOfChanges_;
+    private static readonly float[] addAmountOfChanges_ = { 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f, 2.2f, 2.4f };
+    public static IReadOnlyList<float> AddAmountOfChanges => addAmountOfChanges_;
 
     // お金の上限
     private static readonly int[] maxMoneys_ = { 6000, 7500, 9000, 10500, 12000, 13500, 15000, 16500 };
@@ -48,11 +48,20 @@ public class MoneyScript : MonoBehaviour
 
     [Header("レベルアップSE"), SerializeField] private AudioClip levelUpSe_;
 
+    private void Awake()
+    {
+        // VSync無効化
+        QualitySettings.vSyncCount = 0;   
+        // フレームレート固定
+        Application.targetFrameRate = 60;
+    }
+
     /// <summary>
     /// 毎フレーム更新
     /// </summary>
     void Update()
     {
+      
 
         // 今持ってるお金が上限より多かったら
         if (maxMoneys_[moneyLevel] <= currentMoney)
@@ -86,8 +95,10 @@ public class MoneyScript : MonoBehaviour
             }
         }
 
+        int money = (int)currentMoney;
+
         // 現在のお金の文字表示
-        currentMoneyText.text = currentMoney.ToString() + " / " + maxMoneys_[moneyLevel].ToString();
+        currentMoneyText.text = money.ToString() + " / " + maxMoneys_[moneyLevel].ToString();
 
         if (moneyLevel < maxMoneyLevel_)
         {
@@ -109,13 +120,13 @@ public class MoneyScript : MonoBehaviour
         }
 
         // ここから下でお金を増やしてる
-        timer_ += Time.deltaTime;
+        //timer_ += Time.deltaTime;
 
-        if (timer_ >= 1.0f)
-        {
+        //if (timer_ >= 1.0f)
+        //{
             currentMoney += addAmountOfChanges_[moneyLevel];
-            timer_ = 0.0f;
-        }
+          //  timer_ = 0.0f;
+        //}
 
         Debug.Log("現在のお金:" + currentMoney);
     }
