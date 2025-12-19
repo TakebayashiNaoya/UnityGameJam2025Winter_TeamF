@@ -28,6 +28,7 @@ public class Spawner : Actor
     // Update is called once per frame
     void Update()
     {
-
+        // HP表示
+        hpText_.text = health_.ToString() + " / " + maxHealth_.ToString();
     }
 }
