@@ -16,12 +16,16 @@ public class EnemySpawnerAI : MonoBehaviour
 
     private float spawnIntervalTimer_ = 0.0f;
     private float nextSpawnInterval_ = 0.0f;
-    
+
+
+    [SerializeField] private GameObject battleManager_;
+    BattleManagerScript btManagerSc_;
+
 
     private void OnValidate()
     {
         CorrectSpawnInterval();
-        CorrectEnemyPrefabsInfo();
+        
     }
 
     // Start is called before the first frame update
@@ -44,11 +48,26 @@ public class EnemySpawnerAI : MonoBehaviour
 
 
         nextSpawnInterval_ = Random.Range(minSpawnInterval_, maxSpawnInterval_);
+
+        CorrectEnemyPrefabsInfo();
+
+        if (battleManager_ == null)
+        {
+            Debug.LogWarning("EnemySpawnAI: バトルマネージャーオブジェクトがセットされていません");
+            return;
+        }
+
+        btManagerSc_ = battleManager_.GetComponent<BattleManagerScript>();
     }
 
 
     private void UpdateObject()
     {
+        if (btManagerSc_.IsGameOver())
+        {
+            return;
+        }
+
         //タイマーを進める
         spawnIntervalTimer_ += Time.deltaTime;
 
@@ -111,16 +130,6 @@ public class EnemySpawnerAI : MonoBehaviour
         if (enemyPrefabs_.Count == 0)
         {
             Debug.LogWarning("EnemySpawnerAI: 敵のプレハブが設定されていません。");
-        }
-        else if (enemyPrefabs_.Count > 0)
-        {
-            for (int i = 0; i < enemyPrefabs_.Count; i++)
-            {
-                if (enemyPrefabs_[i] == null)
-                {
-                    Debug.LogWarning("EnemySpawnerAI: 敵のプレハブが設定されていません。");
-                }
-            }
         }
         if (enemyPrefabs_.Count > 5)
         {

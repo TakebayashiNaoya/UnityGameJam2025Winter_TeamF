@@ -35,6 +35,12 @@ public class BattleManagerScript : MonoBehaviour
     private bool isGameOver_ = false;   // 二重実行防止用フラグ
 
 
+
+    public bool IsGameOver()
+    {
+        return isGameOver_;
+    }
+
     void Start()
     {
         SoundManager.instance.PlayBgm(battleBgm_);
