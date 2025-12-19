@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Spawner : Actor
 {
+    [Header("体力表示のTMP"), SerializeField]
+    private TextMeshProUGUI hpText_;
+
+
     protected override void InitializeObject()
     {
         //体力を最大体力に設定
