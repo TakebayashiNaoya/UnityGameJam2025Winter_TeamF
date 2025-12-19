@@ -29,7 +29,11 @@ public class SpawnButtonScript : MonoBehaviour
 
     [Header("リスポーン用のゲージ"), SerializeField] private Slider respawnGaugeSlider_;
 
+    // リスポーンタイマー
     private float reSpawnTimer_ = 0.0f;
+
+    // リスポーン可能かどうかのフラグ
+    private bool canReSpawn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +45,8 @@ public class SpawnButtonScript : MonoBehaviour
         spawnButton_ = GetComponent<Button>();
 
         spawnButton_.onClick.AddListener(Spawn);
+
+        reSpawnTimer_ = characterBaseScript_.GetSpawnInterval();
     }
 
     /// <summary>
@@ -53,7 +59,7 @@ public class SpawnButtonScript : MonoBehaviour
         costText.text = "Cost : " + characterBaseScript_.GetNeedMoney().ToString();
 
         // コストよりも現在のお金があるのなら
-        if (moneyScript_.currentMoney > characterBaseScript_.GetNeedMoney())
+        if (moneyScript_.currentMoney > characterBaseScript_.GetNeedMoney() && !canReSpawn)
         {
             GetComponent<Image>().color = new Color(255.0f, 244.0f, 0.0f, 255.0f);
             moneyScript_.canSpawn = true;
@@ -64,6 +70,9 @@ public class SpawnButtonScript : MonoBehaviour
             GetComponent<Image>().color = new Color(255.0f, 255.0f, 255.0f, 255.0f);
             moneyScript_.canSpawn = false;
         }
+
+        // リスポーン処理
+        ReSpawn();
     }
 
     void Spawn()
@@ -72,7 +81,7 @@ public class SpawnButtonScript : MonoBehaviour
         //お金の最終チェック
         int cost = characterBaseScript_.GetNeedMoney();
 
-        if (moneyScript_.currentMoney >= cost)
+        if (moneyScript_.currentMoney >= cost && !canReSpawn)
         {
             //お金を消費してスポーンさせる
             moneyScript_.Spawn(cost);
@@ -83,33 +92,38 @@ public class SpawnButtonScript : MonoBehaviour
                 SpawnManager.instance.SpawnRequest(playerObject_);
                 SoundManager.instance.PlaySe(spawnSe_);
 
-                // リスポーン処理を呼び出す
-                ReSpawn();
+                // リスポーン可能にする
+                canReSpawn = true;
             }
         }
     }
 
     void ReSpawn()
     {
-        // もしリスポーンタイマーが0以上なら
-        if (reSpawnTimer_ >= 0)
+        // もしリスポーン可能なら
+        if (canReSpawn)
         {
-            // リスポーンゲージの最大値を設定
-            respawnGaugeSlider_.maxValue = characterBaseScript_.GetSpawnInterval();
+            // 経過時間を計算
+            float elapsed = characterBaseScript_.GetSpawnInterval() - reSpawnTimer_;
 
             // リスポーンゲージを変化させる
-            reSpawnTimer_ = characterBaseScript_.GetSpawnInterval() - Time.deltaTime;
+            reSpawnTimer_ -= Time.deltaTime;
 
             // リスポーンゲージの現在値を設定
-            respawnGaugeSlider_.value = reSpawnTimer_;
+            respawnGaugeSlider_.value = elapsed;
 
             moneyScript_.canSpawn = false;
         }
 
-        else
+        // リスポーンタイマーが0以下になったら
+        if (reSpawnTimer_ <= 0.0f)
         {
             // リスポーンゲージをリセット
-            respawnGaugeSlider_.value = 1.0f;
+            reSpawnTimer_ = characterBaseScript_.GetSpawnInterval();
+            respawnGaugeSlider_.value = reSpawnTimer_;
+
+            // リスポーンのフラグを折る
+            canReSpawn = false;
 
             moneyScript_.canSpawn = true;
         }
