@@ -45,7 +45,7 @@ public class CharacterBase : Actor
     [Header("攻撃タイプ"),          SerializeField] private AttackType attackType_;
     
 
-    private List<CharacterBase> foundList_ = new List<CharacterBase>(); //感知した敵のリスト
+    private List<Actor> foundList_ = new List<Actor>(); //感知した敵のリスト
 
     private float attackIntervalTimer_ = 0.0f; //待機時間計測用タイマー
     private float attackkingTimer_ = 0.0f;     //攻撃時間計測用タイマー
@@ -401,7 +401,7 @@ public class CharacterBase : Actor
     private void OnTriggerEnter(Collider other)
     {
         //ターゲットのCharacterBaseコンポーネントを取得
-        CharacterBase target = other.GetComponent<CharacterBase>();
+        Actor target = other.GetComponent<Actor>();
 
         //targetがnull参照なら処理を抜ける
         if (target == null)
@@ -428,7 +428,7 @@ public class CharacterBase : Actor
     private void OnTriggerExit(Collider other)
     {
         //ターゲットのCharacterBaseコンポーネントを取得
-        CharacterBase target = other.GetComponent<CharacterBase>();
+        Actor target = other.GetComponent<Actor>();
 
         //targetがnull参照なら処理を抜ける
         if (target == null)
@@ -471,7 +471,6 @@ public class CharacterBase : Actor
     {
         if (health_ <= 0)
         {
-            health_ = 0;
             return true;
         }
         return false;
@@ -520,7 +519,7 @@ public class CharacterBase : Actor
             {
                 //攻撃対象にダメージを与える
                 //Debug.Log("Attack Target:" + target.name);
-                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
+                Actor targetCharacter = target.GetComponent<Actor>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }
@@ -564,7 +563,7 @@ public class CharacterBase : Actor
             if (lengthMin == length)
             {
                 //Debug.Log("Attack Target:" + target.name);
-                CharacterBase targetCharacter = target.GetComponent<CharacterBase>();
+                Actor targetCharacter = target.GetComponent<Actor>();
                 targetCharacter.ReceiveDamage((int)attackPower_);
             }
         }
