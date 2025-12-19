@@ -68,6 +68,7 @@ public class SpawnButtonScript : MonoBehaviour
         // コストテキストの表示
         costText.text = "Cost : " + characterBaseScript_.GetNeedMoney().ToString();
 
+
         // コストよりも現在のお金があるのなら
         if (moneyScript_.currentMoney > characterBaseScript_.GetNeedMoney() && !canReSpawn)
         {
