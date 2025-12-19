@@ -4,6 +4,9 @@
 ///
 using UnityEngine;
 using TMPro;
+using System.Collections.ObjectModel;
+using System;
+using System.Collections.Generic;
 
 public class MoneyScript : MonoBehaviour
 {
@@ -16,14 +19,17 @@ public class MoneyScript : MonoBehaviour
     // お金レベルの上限
     private int maxMoneyLevel_ = 7;
 
-    [Header("増えるお金の量"), SerializeField]
-    private int[] addAmountOfChanges_;
+    // お金の変化量
+    private static readonly int[] addAmountOfChanges_ = { 185, 193, 203, 212, 222, 231, 241, 250 };
+    public static IReadOnlyList<int> AddAmountOfChanges => addAmountOfChanges_;
 
-    [Header("お金の上限"), SerializeField]
-    private int[] maxMoneys_;
+    // お金の上限
+    private static readonly int[] maxMoneys_ = { 6000, 7500, 9000, 10500, 12000, 13500, 15000, 16500 };
+    public static IReadOnlyList<int> MaxMoneys => maxMoneys_;
 
-    [Header("レベルアップに必要な金額"), SerializeField]
-    private int[] levelUpCosts_;
+    // レベルアップに必要な金額
+    private static readonly int[] levelUpCosts_ = { 560, 1120, 1680, 2240, 2800, 3360, 3920 };
+    public static IReadOnlyList<int> LevelUpCosts => levelUpCosts_;
 
     // 時間
     private float timer_ = 0f;
