@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement; // シーン管理に必要
 
 public class SceneTransition : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // ボタンから呼び出すためのパブリック関数
+    public void LoadGameScene(string sceneName)
     {
-        
+        // 指定した名前のシーンを読み込む
+        SceneManager.LoadScene(sceneName);
     }
 
-    // Update is called once per frame
-    void Update()
+    // 現在のシーンをリロード（やり直し）する場合
+    public void ReloadScene()
     {
-        
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 }
