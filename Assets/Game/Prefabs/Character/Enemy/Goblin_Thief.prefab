@@ -101,7 +101,7 @@ MonoBehaviour:
   bodyCollider_: {fileID: 4774029402640523561}
   charaCost_: 106
   moveSpeed_: 1
-  attackPower_: 50
+  attackPower_: 10
   attackRange_: 1.66
   bodyRange_: 0.44
   spawnInterval_: 2.37

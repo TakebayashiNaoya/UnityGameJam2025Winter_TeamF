@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2931607a15a46f243869482a9fe0124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth_: 100
+  maxHealth_: 200
   bodyCollider_: {fileID: 2993872693302880066}
   charaCost_: 100
   moveSpeed_: 1
