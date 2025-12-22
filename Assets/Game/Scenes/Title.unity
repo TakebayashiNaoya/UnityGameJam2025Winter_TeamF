@@ -563,6 +563,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SceneChanger, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 6528618843382145688, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_Name
       value: TitleCanvas
