@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Title.unity
     guid: 5590a8697bf6b5547b828c943fe7bd97
+  - enabled: 1
+    path: Assets/Game/Scenes/TeamEdit.unity
+    guid: 125ab629979d5ba4eb4c3153f0aac08a
+  - enabled: 1
+    path: Assets/Game/Scenes/StageSelect.unity
+    guid: d6a7507ee7b2c9f4f9c5b43708b8d686
+  - enabled: 1
+    path: Assets/Game/Scenes/MainMenu.unity
+    guid: 0dacc84046298394f952885cff022517
   m_configObjects: {}

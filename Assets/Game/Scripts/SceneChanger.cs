@@ -9,8 +9,13 @@ public class SceneChanger : MonoBehaviour
     private Image fadeImage_;
     private RectTransform slideImageRect_; // スライドは位置を動かすのでRectTransformを使う
 
-    [Header("設定")]
-    [SerializeField] private float duration_ = 0.5f; // アニメーション時間
+    [Header("演出時間の設定")]
+    [SerializeField] private float fadeDuration_ = 0.5f;  // フェードの時間（ゆっくり）
+    [SerializeField] private float slideDuration_ = 0.2f; // スライドの時間（シュッと速く）
+
+    // シーンをまたいで「スライド状態」を共有するフラグ
+    private static bool isSliding_ = false;
+
 
     private void Awake()
     {
@@ -61,6 +66,17 @@ public class SceneChanger : MonoBehaviour
     }
 
 
+    private void Start()
+    {
+        // シーン開始時に「スライドの続き」かどうかをチェック
+        if (isSliding_)
+        {
+            // スライド中なら「退場（Out）」アニメーションを開始
+            StartCoroutine(SlideOutSequence());
+        }
+    }
+
+
     /// <summary> 
     /// フェードしながら遷移
     /// </summary>
@@ -76,7 +92,7 @@ public class SceneChanger : MonoBehaviour
     /// </summary>
     public void SlideAndLoadScene(string sceneName)
     {
-        if (slideImageRect_ != null) StartCoroutine(SlideSequence(sceneName));
+        if (slideImageRect_ != null) StartCoroutine(SlideInSequence(sceneName));
         else LoadGameScene(sceneName);
     }
 
@@ -98,10 +114,10 @@ public class SceneChanger : MonoBehaviour
         fadeImage_.raycastTarget = true; // クリックブロック
         float elapsed = 0;
 
-        while (elapsed < duration_)
+        while (elapsed < fadeDuration_)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration_);
+            float t = Mathf.Clamp01(elapsed / fadeDuration_);
 
             // アルファ値を操作
             Color c = fadeImage_.color;
@@ -116,36 +132,69 @@ public class SceneChanger : MonoBehaviour
 
 
     /// <summary>
-    /// スライドシーケンス
+    /// スライドイン
     /// </summary>
-    private IEnumerator SlideSequence(string sceneName)
+    private IEnumerator SlideInSequence(string sceneName)
     {
         Image img = slideImageRect_.GetComponent<Image>();
-        // クリックブロック
-        if (img)
-        {
-            img.raycastTarget = true;
-        }
+        if (img) img.raycastTarget = true;
 
-        // 経過時間
         float elapsed = 0;
-
         float screenWidth = GetComponent<RectTransform>().rect.width;
-        Vector2 startPos = new Vector2(screenWidth, 0);
-        Vector2 endPos = Vector2.zero;
+
+        Vector2 startPos = new Vector2(screenWidth, 0); // 右
+        Vector2 endPos = Vector2.zero;                  // 中央
+
         slideImageRect_.anchoredPosition = startPos;
 
-        // スライドイン
-        while (elapsed < duration_)
+        while (elapsed < slideDuration_)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.SmoothStep(0, 1, elapsed / duration_);
+            float t = Mathf.SmoothStep(0, 1, elapsed / slideDuration_);
             slideImageRect_.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
             yield return null;
         }
 
         slideImageRect_.anchoredPosition = endPos;
 
+        // ★次のシーンへ「スライド中だよ」と伝える
+        isSliding_ = true;
+
         SceneManager.LoadScene(sceneName);
+    }
+
+
+    /// <summary>
+    /// スライドアウト
+    /// </summary>
+    private IEnumerator SlideOutSequence()
+    {
+        // 1. まず強制的に画面中央（真っ暗な状態）にセット
+        slideImageRect_.anchoredPosition = Vector2.zero;
+
+        Image img = slideImageRect_.GetComponent<Image>();
+        if (img) img.raycastTarget = true; // 操作ブロック継続
+
+        float elapsed = 0;
+        float screenWidth = GetComponent<RectTransform>().rect.width;
+
+        Vector2 startPos = Vector2.zero;                 // 中央
+        Vector2 endPos = new Vector2(-screenWidth, 0);   // 左
+
+        // 2. 左へ抜けていくアニメーション
+        while (elapsed < slideDuration_)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0, 1, elapsed / slideDuration_);
+            slideImageRect_.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+
+        slideImageRect_.anchoredPosition = endPos;
+
+        if (img) img.raycastTarget = false; // 操作ブロック解除
+
+        // ★フラグをリセット（終わったよ）
+        isSliding_ = false;
     }
 }

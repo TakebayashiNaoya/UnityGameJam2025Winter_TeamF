@@ -1925,16 +1925,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1921873409}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: SlideAndLoadScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: StageSelect
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!224 &1098158979
@@ -2256,7 +2256,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1921873409}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: FadeAndLoadScene
         m_Mode: 5
@@ -3616,6 +3616,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3fdb5a23dbcdc04480691018004b75c, type: 3}
+--- !u!114 &1921873409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5139285584810630888, guid: d3fdb5a23dbcdc04480691018004b75c, type: 3}
+  m_PrefabInstance: {fileID: 1921873408}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33ffb6a3c7ed494ba24df770ed88884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1941603606
 GameObject:
   m_ObjectHideFlags: 0
