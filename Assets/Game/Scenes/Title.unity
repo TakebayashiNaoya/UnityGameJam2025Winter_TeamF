@@ -134,6 +134,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27030613bc86274499b6fed1ff381167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1052511328 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5139285584810630888, guid: d3fdb5a23dbcdc04480691018004b75c, type: 3}
+  m_PrefabInstance: {fileID: 1937772449}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b33ffb6a3c7ed494ba24df770ed88884, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1246277729
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,17 +237,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1559484707 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5139285584810630888, guid: d3fdb5a23dbcdc04480691018004b75c, type: 3}
-  m_PrefabInstance: {fileID: 2130270094}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b33ffb6a3c7ed494ba24df770ed88884, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1594739646
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +362,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
---- !u!1001 &2130270094
+--- !u!1001 &1937772449
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -550,7 +550,7 @@ PrefabInstance:
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1559484707}
+      objectReference: {fileID: 1052511328}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -696,4 +696,4 @@ SceneRoots:
   - {fileID: 876759663809994067}
   - {fileID: 1594739649}
   - {fileID: 2923250915070281326}
-  - {fileID: 2130270094}
+  - {fileID: 1937772449}
