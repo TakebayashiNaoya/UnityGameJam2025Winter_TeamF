@@ -51,7 +51,7 @@ public class MoneyScript : MonoBehaviour
     private void Awake()
     {
         // VSync無効化
-        QualitySettings.vSyncCount = 0;   
+        QualitySettings.vSyncCount = 0;
         // フレームレート固定
         Application.targetFrameRate = 60;
     }
@@ -61,8 +61,6 @@ public class MoneyScript : MonoBehaviour
     /// </summary>
     void Update()
     {
-      
-
         // 今持ってるお金が上限より多かったら
         if (maxMoneys_[moneyLevel] <= currentMoney)
         {
@@ -124,11 +122,9 @@ public class MoneyScript : MonoBehaviour
 
         //if (timer_ >= 1.0f)
         //{
-            currentMoney += addAmountOfChanges_[moneyLevel];
-          //  timer_ = 0.0f;
+        currentMoney += addAmountOfChanges_[moneyLevel];
+        //  timer_ = 0.0f;
         //}
-
-        Debug.Log("現在のお金:" + currentMoney);
     }
 
     public void LevelUp()
@@ -140,7 +136,7 @@ public class MoneyScript : MonoBehaviour
             canLevelUP = false;
             SoundManager.instance.PlaySe(levelUpSe_);
         }
-        
+
     }
 
 
@@ -151,7 +147,7 @@ public class MoneyScript : MonoBehaviour
             currentMoney -= cost;
             canSpawn = false;
         }
-        
+
     }
 
 }
