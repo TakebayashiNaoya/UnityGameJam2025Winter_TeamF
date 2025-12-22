@@ -100,12 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2931607a15a46f243869482a9fe0124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth_: 250
+  maxHealth_: 50
   bodyCollider_: {fileID: 2993872693302880066}
   charaCost_: 75
   moveSpeed_: 1
   attackPower_: 20
-  attackRange_: 1.4
+  attackRange_: 1
   bodyRange_: 0.4
   spawnInterval_: 2
   attackInterval_: 1.23
@@ -152,7 +152,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.4
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1826673016166203971
 Rigidbody:

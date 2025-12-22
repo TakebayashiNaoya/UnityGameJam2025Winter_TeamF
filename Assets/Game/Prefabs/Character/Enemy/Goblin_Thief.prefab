@@ -97,11 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3b0a67190220c41a5bd21b46632018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth_: 147
+  maxHealth_: 300
   bodyCollider_: {fileID: 4774029402640523561}
   charaCost_: 106
-  moveSpeed_: 0.27
-  attackPower_: 100
+  moveSpeed_: 1
+  attackPower_: 50
   attackRange_: 1.66
   bodyRange_: 0.44
   spawnInterval_: 2.37
