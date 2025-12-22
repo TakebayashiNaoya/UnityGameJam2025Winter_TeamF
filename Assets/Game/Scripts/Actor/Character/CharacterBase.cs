@@ -50,9 +50,11 @@ public class CharacterBase : Actor
     private float attackIntervalTimer_ = 0.0f; //待機時間計測用タイマー
     private float attackkingTimer_ = 0.0f;     //攻撃時間計測用タイマー
     private bool isFind_ = false;         //敵を感知しているかどうかのフラグ
+    private bool isAnimation = false;     //アニメーションがあるかどうかのフラグ
 
     private CharacterState currentState_ = CharacterState.None;
     private Rigidbody rb_;
+    private Animator animator_;
 
     protected string myTag_ = "";                //自分のタグ
     protected string targetTag_ = "";             //敵のタグ
@@ -129,6 +131,18 @@ public class CharacterBase : Actor
         //体力を最大体力に設定
         health_ = maxHealth_;
 
+        animator_ = GetComponent<Animator>();
+
+
+        if (animator_ == null)
+        {
+            isAnimation = false;
+        }
+        else
+        {
+            isAnimation = true;
+        }
+
         //初期ステートを歩きステートに設定
         currentState_ = CharacterState.Walk;
         WalkStateEnter();
@@ -187,6 +201,12 @@ public class CharacterBase : Actor
 
         //攻撃のインターバル管理用タイマーをリセット
         attackIntervalTimer_ = 0.0f;
+
+        if (isAnimation)
+        {
+            //animator_.SetTrigger(stateName_[(int)CharacterState.Idle]);
+            animator_.SetBool("IsIdle", true);
+        }
     }
 
 
@@ -202,6 +222,11 @@ public class CharacterBase : Actor
     private void IdleStateExit()
     {
         attackIntervalTimer_ = 0.0f;
+
+        if (isAnimation)
+        {
+            animator_.SetBool("IsIdle", false);
+        }
     }
 
 
@@ -245,6 +270,13 @@ public class CharacterBase : Actor
     private void WalkStateEnter()
     {
         //Debug.Log("WalkStateEnter");
+
+        if (isAnimation)
+        {
+            //animator_.SetTrigger(stateName_[(int)CharacterState.Walk]);
+
+            animator_.SetBool("IsWalk", true);
+        }
     }
 
 
@@ -263,6 +295,11 @@ public class CharacterBase : Actor
     private void WalkStateExit()
     {
         //Debug.Log("FoundEnemy");
+
+        if (isAnimation)
+        {
+            animator_.SetBool("IsWalk", false);
+        }
     }
 
 
@@ -306,6 +343,13 @@ public class CharacterBase : Actor
     {
         //Debug.Log("AttackStateEnter");
 
+        if (isAnimation)
+        {
+            //animator_.SetTrigger(stateName_[(int)CharacterState.Attack]);
+
+            animator_.SetBool("IsAttack", true);
+        }
+
         //攻撃発生タイマーをリセット
         attackkingTimer_ = 0.0f;
     }
@@ -323,6 +367,11 @@ public class CharacterBase : Actor
     {
         //攻撃発生タイマーをリセット
         attackkingTimer_ = 0.0f;
+
+        if (isAnimation)
+        {
+            animator_.SetBool("IsAttack", false);
+        }
     }
 
 
@@ -371,6 +420,16 @@ public class CharacterBase : Actor
     private void DieStateEnter()
     {
         //Debug.Log("DieStateEnter");
+
+        if (isAnimation)
+        {
+            //animator_.SetTrigger(stateName_[(int)CharacterState.Die]);
+            
+            if (isAnimation)
+            {
+                animator_.SetBool("IsDie", true);
+            }
+        }
     }
 
 
@@ -384,6 +443,11 @@ public class CharacterBase : Actor
     //死亡ステートの終了処理
     private void DieStateExit()
     {
+        if (isAnimation)
+        {
+            animator_.SetBool("IsDie", false);
+        }
+
         //自身を削除
         Destroy(this.gameObject);
     }
@@ -502,7 +566,7 @@ public class CharacterBase : Actor
     {
         
         //攻撃処理
-        Debug.Log("Attack!");
+        Debug.Log("RangeAttack!");
 
         //攻撃範囲内の攻撃対象を取得
         Collider[] targets = Physics.OverlapSphere(
