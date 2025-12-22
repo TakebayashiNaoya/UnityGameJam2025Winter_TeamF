@@ -33,17 +33,17 @@ public enum CharacterType
 
 public class CharacterBase : Actor
 {
-    [Header("キャラコスト"),        SerializeField] private int charaCost_;    
-    [Header("移動速度"),            SerializeField] private float moveSpeed_;
-    [Header("攻撃力"),              SerializeField] private float attackPower_;
-    [Header("射程"),                SerializeField] private float attackRange_;
-    [Header("当たり判定"),          SerializeField] private float bodyRange_;
-    [Header("再出撃までの時間"),    SerializeField] private float spawnInterval_;
-    [Header("再攻撃までの時間"),    SerializeField] private float attackInterval_;
-    [Header("攻撃にかかる時間"),    SerializeField] private float attackkingTime_;
-    [Header("間合い"),              SerializeField] private SphereCollider attackCollider_;    
-    [Header("攻撃タイプ"),          SerializeField] private AttackType attackType_;
-    
+    [Header("キャラコスト"), SerializeField] private int charaCost_;
+    [Header("移動速度"), SerializeField] private float moveSpeed_;
+    [Header("攻撃力"), SerializeField] private float attackPower_;
+    [Header("射程"), SerializeField] private float attackRange_;
+    [Header("当たり判定"), SerializeField] private float bodyRange_;
+    [Header("再出撃までの時間"), SerializeField] private float spawnInterval_;
+    [Header("再攻撃までの時間"), SerializeField] private float attackInterval_;
+    [Header("攻撃にかかる時間"), SerializeField] private float attackkingTime_;
+    [Header("間合い"), SerializeField] private SphereCollider attackCollider_;
+    [Header("攻撃タイプ"), SerializeField] private AttackType attackType_;
+
 
     private List<Actor> foundList_ = new List<Actor>(); //感知した敵のリスト
 
@@ -80,7 +80,7 @@ public class CharacterBase : Actor
     //キャラクターの金額を取得する
     public int GetNeedMoney()
     {
-       return charaCost_;
+        return charaCost_;
     }
 
 
@@ -424,7 +424,7 @@ public class CharacterBase : Actor
         if (isAnimation)
         {
             //animator_.SetTrigger(stateName_[(int)CharacterState.Die]);
-            
+
             if (isAnimation)
             {
                 animator_.SetBool("IsDie", true);
@@ -504,7 +504,7 @@ public class CharacterBase : Actor
         if (foundList_.Contains(target))
         {
             foundList_.Remove(target);
-        }       
+        }
     }
 
 
@@ -564,28 +564,27 @@ public class CharacterBase : Actor
     //範囲攻撃処理
     private void RangeAttack()
     {
-        
+
         //攻撃処理
         Debug.Log("RangeAttack!");
+
+        int layerMask = 1 << targetLayer_;
 
         //攻撃範囲内の攻撃対象を取得
         Collider[] targets = Physics.OverlapSphere(
             transform.position
             , attackRange_
-            , LayerMask.GetMask(targetTag_)
+            , layerMask
         );
 
 
         //攻撃対象のタグを設定
         foreach (var target in targets)
         {
-            if (target.CompareTag(targetTag_))
-            {
-                //攻撃対象にダメージを与える
-                //Debug.Log("Attack Target:" + target.name);
-                Actor targetCharacter = target.GetComponent<Actor>();
-                targetCharacter.ReceiveDamage((int)attackPower_);
-            }
+            //攻撃対象にダメージを与える
+            //Debug.Log("Attack Target:" + target.name);
+            Actor targetCharacter = target.GetComponent<Actor>();
+            targetCharacter.ReceiveDamage((int)attackPower_);
         }
     }
 

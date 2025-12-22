@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3132432477350855286
+--- !u!1 &6883903112337564289
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,26 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3066005260453790349}
-  - component: {fileID: 5931490161449319534}
-  - component: {fileID: 5924024249098648523}
-  - component: {fileID: 2684568431941898825}
-  - component: {fileID: 8142759452780127586}
-  - component: {fileID: 1237385766540738369}
-  m_Layer: 7
-  m_Name: dog
-  m_TagString: Enemy
+  - component: {fileID: 671575264658583036}
+  - component: {fileID: 4193382733625281677}
+  - component: {fileID: 8285234586549716315}
+  - component: {fileID: 2993872693302880066}
+  - component: {fileID: 3454503576905180606}
+  - component: {fileID: 1826673016166203971}
+  m_Layer: 6
+  m_Name: cat 2
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3066005260453790349
+--- !u!4 &671575264658583036
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -36,13 +36,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5931490161449319534
+--- !u!212 &4193382733625281677
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -77,9 +77,9 @@ SpriteRenderer:
   m_SortingLayerID: 85913449
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d252a3e188256dc4d8885221d81f4e94, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d33946d4292a2a24ebba3ec74a857a66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.28, y: 1.28}
@@ -88,37 +88,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5924024249098648523
+--- !u!114 &8285234586549716315
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f3b0a67190220c41a5bd21b46632018, type: 3}
+  m_Script: {fileID: 11500000, guid: 2931607a15a46f243869482a9fe0124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth_: 100
-  bodyCollider_: {fileID: 2684568431941898825}
-  charaCost_: 15
-  moveSpeed_: 1.5
-  attackPower_: 10
-  attackRange_: 1.1
+  maxHealth_: 300
+  bodyCollider_: {fileID: 2993872693302880066}
+  charaCost_: 200
+  moveSpeed_: 2
+  attackPower_: 40
+  attackRange_: 0.5
   bodyRange_: 0.4
-  spawnInterval_: 0
-  attackInterval_: 1.57
+  spawnInterval_: 5
+  attackInterval_: 1
   attackkingTime_: 0.27
-  attackCollider_: {fileID: 8142759452780127586}
+  attackCollider_: {fileID: 3454503576905180606}
   attackType_: 1
---- !u!135 &2684568431941898825
+--- !u!135 &2993872693302880066
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -133,13 +133,13 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &8142759452780127586
+--- !u!135 &3454503576905180606
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -152,15 +152,15 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.1
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1237385766540738369
+--- !u!54 &1826673016166203971
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3132432477350855286}
+  m_GameObject: {fileID: 6883903112337564289}
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
