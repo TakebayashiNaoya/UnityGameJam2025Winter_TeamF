@@ -14,6 +14,7 @@ public class BattleManagerScript : MonoBehaviour
     [SerializeField] private GameObject gamePlayUI_;        // ゲーム中に表示するUIの親
     [SerializeField] private GameObject winCanvasPrefab_;
     [SerializeField] private GameObject loseCanvasPrefab_;
+    [SerializeField] private GameObject returnButtonPrefab_;
 
     [Header("演出設定")]
     [SerializeField] private float zoomSize_ = 2.0f;        // ズーム後のカメラサイズ
@@ -58,10 +59,20 @@ public class BattleManagerScript : MonoBehaviour
         if (playerSpawner_.GetComponent<Spawner>().GetHealth() <= 0)
         {
             GameOver();
+
+            if (returnButtonPrefab_ != null)
+            {
+                Instantiate(returnButtonPrefab_);
+            }
         }
         else if (enemySpawner_.GetComponent<Spawner>().GetHealth() <= 0)
         {
             GameClear();
+
+            if (returnButtonPrefab_ != null)
+            {
+                Instantiate(returnButtonPrefab_);
+            }
         }
     }
 

@@ -10,22 +10,26 @@ public class EnemySpawnerAI : MonoBehaviour
     [Header("スポーンインターバルの最大値"), SerializeField]
     private float maxSpawnInterval_;
 
+    [Header("バトルマネージャー"), SerializeField]
+    private GameObject battleManager_;
+
+    [Header("スポーンマネージャー"), SerializeField]
+    private GameObject spawnManager_;
 
     [Header("スポーンする敵の種類"), SerializeField]
     private List<GameObject> enemyPrefabs_ = new List<GameObject>();
 
-    private float spawnIntervalTimer_ = 0.0f;
-    private float nextSpawnInterval_ = 0.0f;
 
-
-    [SerializeField] private GameObject battleManager_;
-    BattleManagerScript btManagerSc_;
+    BattleManagerScript btManagerSc_;           // バトルマネージャースクリプト
+    SpawnManager spMangerSc_;                   // スポーンマネージャースクリプト
+    private float spawnIntervalTimer_ = 0.0f;   // スポーンインターバルタイマー
+    private float nextSpawnInterval_ = 0.0f;    // 次のスポーンインターバル
 
 
     private void OnValidate()
     {
         CorrectSpawnInterval();
-        
+
     }
 
     // Start is called before the first frame update
@@ -37,7 +41,7 @@ public class EnemySpawnerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateObject();   
+        UpdateObject();
     }
 
 
@@ -56,8 +60,20 @@ public class EnemySpawnerAI : MonoBehaviour
             Debug.LogWarning("EnemySpawnAI: バトルマネージャーオブジェクトがセットされていません");
             return;
         }
+        else
+        {
+            btManagerSc_ = battleManager_.GetComponent<BattleManagerScript>();
+        }
 
-        btManagerSc_ = battleManager_.GetComponent<BattleManagerScript>();
+        if (spawnManager_ == null)
+        {
+            Debug.LogWarning("EnemySpawnAI: スポーンマネージャーオブジェクトがセットされていません");
+            return;
+        }
+        else
+        {
+            spMangerSc_ = spawnManager_.GetComponent<SpawnManager>();
+        }
     }
 
 
@@ -89,7 +105,7 @@ public class EnemySpawnerAI : MonoBehaviour
     private void RandomSpawn()
     {
         int nextEnemyIndex = Random.Range(0, enemyPrefabs_.Count);
-        SpawnManager.instance.SpawnRequest(enemyPrefabs_[nextEnemyIndex]);
+        spMangerSc_.SpawnRequest(enemyPrefabs_[nextEnemyIndex]);
         nextSpawnInterval_ = Random.Range(minSpawnInterval_, maxSpawnInterval_);
     }
 
