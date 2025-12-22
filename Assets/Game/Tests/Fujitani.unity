@@ -564,11 +564,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a757a76d8eb963b42b1ab62f1bd02511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject_: {fileID: 6883903112337564289, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
-  moneyManager_: {fileID: 3035686580087168099, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
+  moneyManager_: {fileID: 1002388554}
+  spawnManager_: {fileID: 1940644632}
+  unit_: {fileID: 6883903112337564289, guid: ec039a38898ba1a4a8f58944131a3e1c, type: 3}
+  respawnGauge_: {fileID: 1962596550}
   spawnSe_: {fileID: 8300000, guid: f3e238b345bbea64d8a1fd2ac74f4726, type: 3}
   costText: {fileID: 746753027}
-  respawnGaugeSlider_: {fileID: 1962596550}
 --- !u!1 &1002388554 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3035686580087168099, guid: 76765aa42774a0f4ab3d7acaf73e4153, type: 3}
@@ -733,11 +734,15 @@ PrefabInstance:
     - target: {fileID: 6034776708467931509, guid: f82b1471a0f7f8c4c9e0241da74210f2, type: 3}
       propertyPath: winCanvasPrefab_
       value: 
-      objectReference: {fileID: 2258246111482653840, guid: aaaa9c9ecac121f4db3fccfbfaac55df, type: 3}
+      objectReference: {fileID: 7032991728071747813, guid: 25f89ea162926da4dbeae92b507b6a3c, type: 3}
     - target: {fileID: 6034776708467931509, guid: f82b1471a0f7f8c4c9e0241da74210f2, type: 3}
       propertyPath: loseCanvasPrefab_
       value: 
       objectReference: {fileID: 1574558657432775122, guid: f6b9638fb947f314ca9967a3d49c2666, type: 3}
+    - target: {fileID: 6034776708467931509, guid: f82b1471a0f7f8c4c9e0241da74210f2, type: 3}
+      propertyPath: returnButtonPrefab_
+      value: 
+      objectReference: {fileID: 1137530691737292945, guid: dda9502b97ad31b4ca901c157812ed75, type: 3}
     - target: {fileID: 6411425872823278746, guid: f82b1471a0f7f8c4c9e0241da74210f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -845,6 +850,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8427393212862689037, guid: ee9160f4641bd684f8eedc1d6439e950, type: 3}
+      propertyPath: spawnManager_
+      value: 
+      objectReference: {fileID: 1940644632}
+    - target: {fileID: 8427393212862689037, guid: ee9160f4641bd684f8eedc1d6439e950, type: 3}
       propertyPath: battleManager_
       value: 
       objectReference: {fileID: 1461996622}
@@ -855,7 +864,7 @@ PrefabInstance:
     - target: {fileID: 8427393212862689037, guid: ee9160f4641bd684f8eedc1d6439e950, type: 3}
       propertyPath: enemyPrefabs_.Array.data[0]
       value: 
-      objectReference: {fileID: 3132432477350855286, guid: c954f32ad01005d4a9f8f02d410beaf7, type: 3}
+      objectReference: {fileID: 6469635210786835418, guid: 91fecaf7f1f7a3240ba5770602aded1c, type: 3}
     - target: {fileID: 8427393212862689037, guid: ee9160f4641bd684f8eedc1d6439e950, type: 3}
       propertyPath: enemyPrefabs_.Array.data[1]
       value: 
@@ -873,6 +882,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1529233042867226908, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c05a2d7c91d81944d95b7508850ee367, type: 3}
+    - target: {fileID: 1529233042867226908, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3169224362755064549, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -961,6 +978,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -378
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112317360018180358, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -351.32
+      objectReference: {fileID: 0}
     - target: {fileID: 8308674455317697237, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
       propertyPath: LevelUpSE
       value: 
@@ -1018,6 +1043,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1940644632 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1489304143219215300, guid: f971a5e6890e8c64e9261ba995dec2f5, type: 3}
+  m_PrefabInstance: {fileID: 1293107905}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1962596550 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3284495571213813184, guid: 6404da1645e3d7d418b2e57998f4c31a, type: 3}
