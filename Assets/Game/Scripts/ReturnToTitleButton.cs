@@ -18,7 +18,7 @@ public class ReturnToTitleButton : MonoBehaviour
     void OnClickReturn()
     {
         // シーンにある SceneTransition (SceneChanger) を探す
-        SceneTransition transition = FindObjectOfType<SceneTransition>();
+        SceneChanger transition = FindObjectOfType<SceneChanger>();
 
         if (transition != null)
         {
