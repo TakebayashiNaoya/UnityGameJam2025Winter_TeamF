@@ -5,6 +5,11 @@ using TMPro;
 
 public class StageSelectManager : MonoBehaviour
 {
+    [SerializeField] private AudioClip returnSe_;
+    [SerializeField] private AudioClip selectSe_;
+    [SerializeField] private AudioClip startSe_;
+
+
     [Header("ステージごとのシーン名リスト"), SerializeField]
     private string[] stageSceneNames_;
 
@@ -38,6 +43,36 @@ public class StageSelectManager : MonoBehaviour
     {
         sceneChanger_ = FindObjectOfType<SceneChanger>();
         UpdateUI(); // 最初の表示更新
+    }
+
+
+    public void OnClickReturnSe()
+    {
+        // SEを再生
+        if (returnSe_ != null)
+        {
+            SoundManager.instance.PlaySe(returnSe_);
+        }
+    }
+
+
+    public void OnClickSelectSe()
+    {
+        // SEを再生
+        if (selectSe_ != null)
+        {
+            SoundManager.instance.PlaySe(selectSe_);
+        }
+    }
+
+
+    public void OnClickStartSe()
+    {
+        // SEを再生
+        if (startSe_ != null)
+        {
+            SoundManager.instance.PlaySe(startSe_);
+        }
     }
 
 

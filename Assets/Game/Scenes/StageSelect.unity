@@ -603,6 +603,75 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1914496309}
+        m_TargetAssemblyTypeName: StageSelectManager, Assembly-CSharp
+        m_MethodName: OnClickStartSe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1001 &236318867
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5229427363646365950, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_Name
+      value: SoundManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6586643255067067336, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
 --- !u!1 &325902621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,6 +1686,18 @@ MonoBehaviour:
           m_StringArgument: StageSelect
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1914496309}
+        m_TargetAssemblyTypeName: StageSelectManager, Assembly-CSharp
+        m_MethodName: OnClickSelectSe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &767696170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,6 +2706,18 @@ MonoBehaviour:
           m_StringArgument: MainMenu
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1914496309}
+        m_TargetAssemblyTypeName: StageSelectManager, Assembly-CSharp
+        m_MethodName: OnClickReturnSe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1388119421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3519,6 +3612,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8be938ca50a42148837a8cd82e6653c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  returnSe_: {fileID: 8300000, guid: 8323534b12d5ed246b5dbdcc9b5672a9, type: 3}
+  selectSe_: {fileID: 8300000, guid: 406b81408dde54b4f9f96b69da224d0b, type: 3}
+  startSe_: {fileID: 8300000, guid: 8323534b12d5ed246b5dbdcc9b5672a9, type: 3}
   stageSceneNames_:
   - InGame
   stageNameText_: {fileID: 0}
@@ -3884,8 +3980,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1711073545}
+  - {fileID: 236318867}
+  - {fileID: 1914496310}
   - {fileID: 1317317660}
   - {fileID: 567663657}
   - {fileID: 1233168661}
   - {fileID: 964118066}
-  - {fileID: 1914496310}

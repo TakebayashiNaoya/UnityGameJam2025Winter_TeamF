@@ -236,7 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 853a0095a3a8df5479574a92992c14df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleSceneName_: Title
+  titleSceneName_: MainMenu
+  returnSe_: {fileID: 0}
 --- !u!1 &7621982211239856272
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,10 +303,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TAP TO TITLE
+  m_text: TAP TO MENU
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3f59192803795d4409e171c8001680a2, type: 2}
+  m_sharedMaterial: {fileID: 5858211171213893269, guid: 3f59192803795d4409e171c8001680a2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

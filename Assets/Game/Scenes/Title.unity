@@ -123,15 +123,15 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &219514837 stripped
+--- !u!114 &788407756 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5004187259271067404, guid: dea565cf7da24724785b4a5e212aaf66, type: 3}
-  m_PrefabInstance: {fileID: 1809076175}
+  m_CorrespondingSourceObject: {fileID: 8141951433264965186, guid: ec5aa155e18edb84aa1161d0fcab3b02, type: 3}
+  m_PrefabInstance: {fileID: 2923250915070281326}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27030613bc86274499b6fed1ff381167, type: 3}
+  m_Script: {fileID: 11500000, guid: 05c2f3534a480b5478b243eb8a1d9eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1052511328 stripped
@@ -548,24 +548,44 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1052511328}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 219514837}
+      objectReference: {fileID: 788407756}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: FadeAndLoadScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnClickStart
       objectReference: {fileID: 0}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SceneChanger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TitleManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3780507248765461234, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6528618843382145688, guid: 927eee338b3fc034c8257cf1ea29ffeb, type: 3}
       propertyPath: m_Name
@@ -588,6 +608,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitleManager
       objectReference: {fileID: 0}
+    - target: {fileID: 8141951433264965186, guid: ec5aa155e18edb84aa1161d0fcab3b02, type: 3}
+      propertyPath: selectSe_
+      value: 
+      objectReference: {fileID: 8300000, guid: 406b81408dde54b4f9f96b69da224d0b, type: 3}
     - target: {fileID: 8955357604398174555, guid: ec5aa155e18edb84aa1161d0fcab3b02, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.3208075
