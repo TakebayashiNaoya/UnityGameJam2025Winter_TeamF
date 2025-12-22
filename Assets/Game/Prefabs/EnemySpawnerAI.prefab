@@ -46,4 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minSpawnInterval_: 1
   maxSpawnInterval_: 10
-  enemyPrefabs_: []
+  battleManager_: {fileID: 0}
+  spawnManager_: {fileID: 0}
+  enemyPrefabs_:
+  - {fileID: 3132432477350855286, guid: c954f32ad01005d4a9f8f02d410beaf7, type: 3}
+  - {fileID: 6469635210786835418, guid: 91fecaf7f1f7a3240ba5770602aded1c, type: 3}
+  - {fileID: 6968489990557623337, guid: ed8a920b29f0d7b42a391430f78e8dc0, type: 3}
