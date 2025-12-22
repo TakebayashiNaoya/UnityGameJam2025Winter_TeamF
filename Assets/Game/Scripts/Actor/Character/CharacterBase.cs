@@ -54,6 +54,7 @@ public class CharacterBase : Actor
 
     private CharacterState currentState_ = CharacterState.None;
     private Rigidbody rb_;
+    private Animator animator_;
 
     protected string myTag_ = "";                //自分のタグ
     protected string targetTag_ = "";             //敵のタグ
