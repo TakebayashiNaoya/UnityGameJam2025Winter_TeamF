@@ -572,7 +572,7 @@ public class CharacterBase : Actor
         Collider[] targets = Physics.OverlapSphere(
             transform.position
             , attackRange_
-            , LayerMask.GetMask(targetTag_)
+            , LayerMask.GetMask(LayerMask.LayerToName(targetLayer_))
         );
 
 
