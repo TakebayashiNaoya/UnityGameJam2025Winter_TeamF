@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ReturnToTitleButton : MonoBehaviour
 {
     [SerializeField] private string titleSceneName_ = "Title"; // タイトルのシーン名
-
+    [SerializeField] private AudioClip returnSe_; // 戻るボタンのSE
     void Start()
     {
         // ボタンコンポーネントを取得し、クリック時の処理を登録
@@ -17,8 +17,14 @@ public class ReturnToTitleButton : MonoBehaviour
 
     void OnClickReturn()
     {
+        // SEを再生
+        if (returnSe_ != null)
+        {
+            SoundManager.instance.PlaySe(returnSe_);
+        }
+
         // シーンにある SceneTransition (SceneChanger) を探す
-        SceneTransition transition = FindObjectOfType<SceneTransition>();
+        SceneChanger transition = FindObjectOfType<SceneChanger>();
 
         if (transition != null)
         {
